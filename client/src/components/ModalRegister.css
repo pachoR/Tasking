@@ -1,0 +1,103 @@
+/* Modal styling */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--beige);
+    color: var(--orange);
+}
+
+.register-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: 60vw;
+    height: 60vh;
+    
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.title-section{ 
+    background-color: var(--dark-green);
+    color: white;
+    border-radius: 40px 0px 0px 0px;
+}
+
+.form-section {
+    flex-direction: column;
+    background-color: var(--light-green);
+    color: var(--orange);
+    border-radius: 0px 0px 40px 0px;
+}
+
+.form-section input {
+    background-color: white;
+    border: none;
+    border-radius: 50px;
+    color: var(--orange);
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.form-section input:focus {
+    outline: none;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-top: 20px;
+    background-color: var(--dark-green);
+    color: white;
+}
+
+.submit-button:focus {
+    outline: none;
+}
+
+.error-message {
+    color: red;
+    position: relative;
+}
+
+.close-button-area {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: end;
+    padding-right: 5%;
+}
+
+.close-button {
+    background-color: transparent;
+    color: var(--orange);
+    filter: var(--orange);
+    align-items: center;
+    justify-content: end;
+}
+
+.close-svg {
+    fill: var(--orange);
+    height: 1.5rem;
+    width: 1.5rem;
+}
