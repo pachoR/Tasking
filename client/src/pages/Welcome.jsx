@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Dot } from "react-animated-dots"
-
+import { Redirect, useNavigate } from "react-router-dom";
 import './Welcome.css';
+import ModalLogin from "../components/ModalLogin.jsx";
 import ModalRegister from "../components/ModalRegister.jsx";
-import AnimatedButton from "../components/AnimatedButton.jsx";
+import AnimatedButton from "../miscellaneous/AnimatedButton.jsx";
+import ErrorMessage from "../miscellaneous/ErrorMessage.jsx";
 
 
 function Welcome()  {
@@ -55,9 +57,7 @@ function Welcome()  {
                             scaleInfo: {hover: 0.9, tap: 1.4}
                             }}/>}
                         {isModalLogin && 
-                        <ModalRegister 
-                        type={"login"}
-                        closeModal={closeLogin}/>}
+                        <ModalLogin closeModal={closeLogin}/>}
                     </div>
 
                     <div className="btn">
@@ -68,11 +68,11 @@ function Welcome()  {
                             scaleInfo: {hover: 0.9, tap: 1.4}
                             }}/>}
                         {isModalSignIn && 
-                        <ModalRegister
-                        type={"signIn"}
-                        closeModal={closeSignIn}/>}
+                        <ModalRegister closeModal={closeSignIn}/>}
                     </div>
                 </div>
+                
+
             </div>
         </>
     );

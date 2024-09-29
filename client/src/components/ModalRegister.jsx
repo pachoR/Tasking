@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import './ModalRegister.css';
-import AnimatedButton from "./AnimatedButton";
+import './Modal.css';
+import AnimatedButton from "../miscellaneous/AnimatedButton";
 import { useNavigate } from "react-router-dom";
 import Close from '../assets/close_icon.svg?react';
 import axios from "axios";
@@ -8,7 +8,7 @@ import axios from "axios";
 
 const base_url = import.meta.env.VITE_BASE_URL;
 
-function ModalRegister({type, closeModal}){
+function ModalRegister({closeModal}){
     const navigate = useNavigate();
     
     const [username, setUsername] = useState('');
@@ -19,19 +19,24 @@ function ModalRegister({type, closeModal}){
     async function handleSubmit(e){
         e.preventDefault();
 
-        var data = {
+        if(!username || !email || !password){
+          return;
+        }
+
+        const data = {
           user: username,
           pass: password
         }
 
 
         try {
-          const url = base_url + 'welcome/login'
-          console.log("url: " + url);
+          const url = base_url + 'welcome/signin'
           const res = await axios.post(url, data);
-          
+          console.log(res.status);
           if(res.status === 200){
             navigate(res.data.redirect);
+          }else{
+            navigate("/welcome");
           }
               
         } catch (error) {
@@ -46,11 +51,10 @@ function ModalRegister({type, closeModal}){
       <div className="modal">
           <div className="register-container">
             <div className="title-section section">
-              <h1>Log In</h1>
+              <h1>Sign In</h1>
             </div>
             <div className="form-section section">
               <div className="close-button-area">
-                
                 <AnimatedButton buttonProps={{
                   svg: <Close className="close-svg"/>,
                   onClickFunction: closeModal,
@@ -61,9 +65,11 @@ function ModalRegister({type, closeModal}){
                   }
                 }}
                 />
-                
               </div>
+
+
               <div className="form">
+
                 <form onSubmit={handleSubmit}>
                   <div className="form-info">
                     <label>username:</label>
@@ -74,6 +80,17 @@ function ModalRegister({type, closeModal}){
                       required
                     />
                   </div>
+
+                  <div className="form-info">
+                    <label>email:</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+
                   <div className="form-info">
                     <label>password:</label>
                     <input
@@ -85,7 +102,7 @@ function ModalRegister({type, closeModal}){
                   </div>
 
                   <AnimatedButton buttonProps={{
-                    text: 'Log in',
+                    text: 'Register',
                     type: 'submit',
                     onClickFunction: handleSubmit,
                     className: 'submit-button',

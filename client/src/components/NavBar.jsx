@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import classNames from 'classnames';
 import Options from '../assets/options.svg?react'
 import { motion, useAnimation } from "framer-motion";
-import AnimatedButton from '../components/AnimatedButton';
+import AnimatedButton from '../miscellaneous/AnimatedButton';
 import './NavBar.css'
 
 function NavBar(){

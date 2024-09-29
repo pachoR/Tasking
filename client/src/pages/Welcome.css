@@ -1,9 +1,16 @@
+.welcome-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--beige);
+}
+
 .title-area {
     width: 25%;
 }
 
 .button-area {
-    width: 29%;
+    width: 25%;
     display: flex;
     flex-direction: column;
 }
@@ -23,6 +30,7 @@
 
 .button-login {
     background-color: var(--light-green);  
+    color: var(--white);
 }
 
 .button-signin {
