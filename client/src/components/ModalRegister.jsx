@@ -4,7 +4,7 @@ import AnimatedButton from "../miscellaneous/AnimatedButton";
 import { useNavigate } from "react-router-dom";
 import Close from '../assets/close_icon.svg?react';
 import axios from "axios";
-//import { ReactComponent as CloseIcon } from '../assets/close_icon.svg'
+import ErrorMessage from '../miscellaneous/ErrorMessage';
 
 const base_url = import.meta.env.VITE_BASE_URL;
 
@@ -14,7 +14,7 @@ function ModalRegister({closeModal}){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [isUserLenValid , setUserLenValid] = useState('true');
+    const [error_message, setError_message] = useState('');
     
     async function handleSubmit(e){
         e.preventDefault();
@@ -25,33 +25,44 @@ function ModalRegister({closeModal}){
 
         const data = {
           user: username,
-          pass: password
+          pass: password,
+          email: email
         }
 
-
         try {
-          const url = base_url + 'welcome/signin'
+          const url = base_url + 'welcome/register';
           const res = await axios.post(url, data);
-          console.log(res.status);
-          if(res.status === 200){
-            navigate(res.data.redirect);
-          }else{
-            navigate("/welcome");
+
+          if(res.status == 200){
+            navigate('/home', {state: 200});
+            closeModal();
           }
               
         } catch (error) {
-          console.log(error.message);  
+          if(error.response && error.response.status === 403){
+            const server_errMsg = error.response.data.errorMessage || 'Invalid credentials';
+            setError_message(server_errMsg);
+          }
         }  
-        closeModal();
+
     }
 
 
     return (
       <>
       <div className="modal">
+
+          {error_message &&
+          <div className="errorMessage-container">
+              <ErrorMessage props={{
+                  text: error_message,
+              }}
+              />
+          </div>}
+
           <div className="register-container">
             <div className="title-section section">
-              <h1>Sign In</h1>
+              <h1>Register</h1>
             </div>
             <div className="form-section section">
               <div className="close-button-area">
@@ -76,7 +87,10 @@ function ModalRegister({closeModal}){
                     <input
                       type="text"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => {
+                        setError_message('');
+                        setUsername(e.target.value);
+                      }}
                       required
                     />
                   </div>
@@ -86,7 +100,10 @@ function ModalRegister({closeModal}){
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setError_message('');
+                        setEmail(e.target.value);
+                      }}
                       required
                     />
                   </div>
@@ -96,7 +113,10 @@ function ModalRegister({closeModal}){
                     <input
                       type="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setError_message('');
+                        setPassword(e.target.value);
+                      }}
                       required
                     />
                   </div>

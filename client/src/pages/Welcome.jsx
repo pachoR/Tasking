@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Dot } from "react-animated-dots"
-import { Redirect, useNavigate } from "react-router-dom";
 import './Welcome.css';
 import ModalLogin from "../components/ModalLogin.jsx";
 import ModalRegister from "../components/ModalRegister.jsx";
@@ -9,7 +8,7 @@ import ErrorMessage from "../miscellaneous/ErrorMessage.jsx";
 
 
 function Welcome()  {
-    
+
     const [isModalLogin, setModalLogin] = useState(false);
     const [isModalSignIn, setModalSignIn] = useState(false);
 
@@ -71,7 +70,6 @@ function Welcome()  {
                         <ModalRegister closeModal={closeSignIn}/>}
                     </div>
                 </div>
-                
 
             </div>
         </>
