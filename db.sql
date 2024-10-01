@@ -22,18 +22,15 @@ CREATE TABLE projects (
 CREATE TABLE users_projects (
     user_id             INT NOT NULL, 
     project_id          INT NOT NULL ,
+    rol_id              INT NOT NULL,
     UNIQUE(user_id, project_id),
+    FOREIGN KEY (rol_id) REFERENCES roles (rol_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
-DROP TABLE users;
-DROP TABLE projects;
-DROP TABLE roles;
-DROP TABLE users_projects;
 
-SELECT * FROM users;
+SELECT username, project_name, project_init_date, project_end_date 
 
-INSERT INTO users(username, email, user_pass) VALUES ('pacho', 'alfrrugu@hotmail.com', 'pacho123');
-INSERT INTO users(username, email, user_pass) VALUES ('alejandro', 'alex.ruiz@hotmail.com', 'alex123');
+CREATE VIEW username_
