@@ -33,8 +33,8 @@ function ModalRegister({closeModal}){
           const url = base_url + 'welcome/register';
           const res = await axios.post(url, data);
 
-          if(res.status == 200){
-            navigate('/home', {state: 200});
+          if(res.status == 200){ 
+            navigate(res.data.redirect, {state: 200});
             closeModal();
           }
               

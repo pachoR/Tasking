@@ -43,3 +43,6 @@ CREATE VIEW username_projects AS
     INNER JOIN users_projects AS up ON u.user_id = up.user_id
     INNER JOIN projects AS p ON p.project_id = up.project_id
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
+
+SELECT * FROM users
+DELETE FROM users WHERE username = 'alex'
