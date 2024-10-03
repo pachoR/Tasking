@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion";
 
-
 function ErrorMessage({props}){
 
   const error = props.text.split(" ");
@@ -23,6 +22,7 @@ function ErrorMessage({props}){
       ))}
     </div>
   );
+
 }
 
 export default ErrorMessage;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Modal.css';
+import '../styles/Modal.css';
 import AnimatedButton from "../miscellaneous/AnimatedButton";
 import { useNavigate } from "react-router-dom";
 import Close from '../assets/close_icon.svg?react';
@@ -55,10 +55,11 @@ function ModalRegister({closeModal}){
           {error_message &&
           <div className="errorMessage-container">
               <ErrorMessage props={{
-                  text: error_message,
+                text: error_message,
               }}
               />
-          </div>}
+          </div>
+          }
 
           <div className="register-container">
             <div className="title-section section">

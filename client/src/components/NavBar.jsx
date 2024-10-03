@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Options from '../assets/options.svg?react'
 import { motion, useAnimation } from "framer-motion";
 import AnimatedButton from '../miscellaneous/AnimatedButton';
-import './NavBar.css'
+import '../styles/NavBar.css';
 
 function NavBar(){
 

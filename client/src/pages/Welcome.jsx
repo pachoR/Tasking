@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Dot } from "react-animated-dots"
-import './Welcome.css';
+import '../styles/Welcome.css';
 import ModalLogin from "../components/ModalLogin.jsx";
 import ModalRegister from "../components/ModalRegister.jsx";
 import AnimatedButton from "../miscellaneous/AnimatedButton.jsx";
-import ErrorMessage from "../miscellaneous/ErrorMessage.jsx";
 
 
 function Welcome()  {

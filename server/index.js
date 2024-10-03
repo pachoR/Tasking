@@ -28,6 +28,14 @@ app.use(session({
     }
 }));
 
+const isAuthenticated = (req, res, next) => {
+    if(req.session.user){
+        next();
+    }else{
+        res.status(403).json({redirect: '/', errorMessage: 'You must be logged in'});
+    }
+}
+
 app.post('/welcome/login', async (req, res) => {
     const username = req.body.user;
     const password = req.body.pass;
@@ -100,16 +108,32 @@ app.post('/welcome/register', async (req, res) => {
     }
 });
 
-
-app.get('/home', (req, res) => {
-    console.log("session", req.session);
-
-    console.log(req.session.user);
+app.get('/home', isAuthenticated, (req, res) => {
     if(req.session.user){
-        res.status(200).json({user: req.session.user})
+        const user_info = {
+            username: req.session.user.username,
+            email: req.session.user.email
+        }
+        res.status(200).json({user: user_info});
     }else{
         res.status(403).json({redirect: '/', errorMessage: 'You must be logged in to access this page'});
     }
+});
+
+app.get('/projects/:username', async (req, res) => {
+    const { username } = req.params;
+
+    try {
+        const result = (await db.query('SELECT * FROM projectsUser WHERE username = $1', username)).rows;
+        if(result.length > 0){
+            return res.status(200).json(result);
+        }else{
+            return res.status(200).json([]);
+        }
+
+    } catch (error) {
+
+    } 
 });
 
 app.listen(port, () => {
