@@ -1,0 +1,13 @@
+.card-container {
+    background-color: var(--red);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-title {
+    color: var(--white);
+    font-weight: 700;
+}

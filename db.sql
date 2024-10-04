@@ -31,22 +31,18 @@ CREATE TABLE users_projects (
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
-ALTER TABLE DELETE COLUMN project_creator
-
 INSERT INTO roles (rol_name, permissions) VALUES ('Project Manager', ~0)
-
-INSERT INTO projects (project_name, project_init_date, project_end_date) VALUES ('Tasking', CURRENT_DATE, CURRENT_DATE + INTERVAL '10 days');
+INSERT INTO projects (project_name, project_init_date, project_end_date, project_creator) VALUES ('Tasking2', CURRENT_DATE, CURRENT_DATE + INTERVAL '21 days', 18);
 
 
 CREATE VIEW projectsUser AS
-    SELECT username AS "username", project_name AS "project", rol_name AS "rol", permissions AS "permissions", project_init_date AS "start_date", project_end_date AS "end_date"
+    SELECT username AS "username", p.project_id AS "project_id", project_name AS "project", rol_name AS "rol", permissions AS "permissions", project_init_date AS "start_date", project_end_date AS "end_date"
     FROM users AS u
     INNER JOIN users_projects AS up ON u.user_id = up.user_id
     INNER JOIN projects AS p ON p.project_id = up.project_id
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
 
-SELECT * FROM projectsUser AS pU
-LEFT JOIN users AS u ON pU.username = u.username
-WHERE u.user_id = 18
+
+
+

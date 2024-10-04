@@ -124,15 +124,16 @@ app.get('/projects/:username', async (req, res) => {
     const { username } = req.params;
 
     try {
-        const result = (await db.query('SELECT * FROM projectsUser WHERE username = $1', username)).rows;
-        if(result.length > 0){
-            return res.status(200).json(result);
+        const result = (await db.query('SELECT * FROM projectsUser WHERE username = $1', [username]));
+        if(result.rows.length > 0){
+            return res.status(200).json(result.rows);
         }else{
             return res.status(200).json([]);
         }
 
     } catch (error) {
-
+        console.error(error);
+        return res.status(403).json({});
     } 
 });
 

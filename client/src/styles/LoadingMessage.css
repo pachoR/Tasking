@@ -1,0 +1,8 @@
+
+.dots{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-size: 5rem;
+  color: var(--red);
+}
