@@ -14,12 +14,14 @@ CREATE TABLE roles (
 
 CREATE TABLE projects (
     project_id          SERIAL PRIMARY KEY UNIQUE NOT NULL,
-    project_name        TEXT UNIQUE NOT NULL, 
+    project_name        TEXT NOT NULL, 
     project_init_date   DATE NOT NULL, 
     project_end_date    DATE,
     project_creator     INT NOT NULL,
     FOREIGN KEY (project_creator) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 
 CREATE TABLE users_projects (
     user_id             INT NOT NULL, 
@@ -31,10 +33,6 @@ CREATE TABLE users_projects (
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO roles (rol_name, permissions) VALUES ('Project Manager', ~0)
-INSERT INTO projects (project_name, project_init_date, project_end_date, project_creator) VALUES ('Tasking2', CURRENT_DATE, CURRENT_DATE + INTERVAL '21 days', 18);
-
-
 CREATE VIEW projectsUser AS
     SELECT username AS "username", p.project_id AS "project_id", project_name AS "project", rol_name AS "rol", permissions AS "permissions", project_init_date AS "start_date", project_end_date AS "end_date"
     FROM users AS u
@@ -43,6 +41,8 @@ CREATE VIEW projectsUser AS
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
 
+SELECT * FROM projectsUser WHERE username = 'pacho' AND (end_date = NULL OR end_date >= CURRENT_DATE)
+SELECT * FROM projectsUser WHERE username = 'pacho' AND (end_date = NULL OR end_date >= CURRENT_DATE) ORDER BY start_date DESC
 
 
-
+SELECT * FROM projectsUser WHERE username = 'pacho' AND project = 'Tasking';
