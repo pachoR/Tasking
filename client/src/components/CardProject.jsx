@@ -5,23 +5,23 @@ import { CardContent } from '@mui/material';
 function CardProject({props}){
     return (
         <>
-            <Card sx={{maxWidth: 345, background: 'var(--red)', borderRadius: '15px', fontFamily: 'DM Sans', 
-                color: 'var(--white)'}}>
+            <Card sx={{maxWidth: 345, background: 'var(--pink)', borderRadius: '15px', fontFamily: 'DM Sans', 
+                color: 'var(--red)', borderWidth: '20px', borderColor: 'red'}}>
                 <CardContent>
                     <div>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography sx={{color: 'var(--orange)', fontStyle: 'Outfit'}} gutterBottom variant="h5" component="div">
                         {props.project}
                     </Typography> 
                     </div>
                     <div 
                     style={{widht: '100%', display: 'flex', flexDirection: 'column', 
                     justifyContent: 'start', alignItems: 'start'}}>
-                        <Typography sx={{color: 'var(--pink)'}} variant="body1" color="text.secondary">
+                        <Typography sx={{color: 'var(--red)'}} variant="body1" color="text.secondary">
                             <p>{props.rol}</p>
                         </Typography>
-                        <Typography sx={{}} variant='body2'>
-                            <p>Started at: {props.start_date}</p>
-                            <p>Due to: {props.end_date}</p>
+                        <Typography sx={{fontStyle: 'Times New Roman', paddingLeft: '0.5rem',}} variant='body2'>
+                                <p><b>Started at:</b> {props.start_date}</p>
+                                <p style={{fontStyle: 'italic'}}><b>Due to:</b> {props.end_date}</p>
                         </Typography>
                     </div>
                 </CardContent>

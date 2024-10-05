@@ -69,7 +69,7 @@ function NavBar(){
                     </li>
                 </ul>
 
-                <div className="user-options">
+                {/*<div className="user-options">
                     <motion.div 
                     animate={controls}>
                         <AnimatedButton buttonProps={{
@@ -78,11 +78,8 @@ function NavBar(){
                             className: "options-svg"
                         }}
                         />  
-                    </motion.div>     
-
-
-                                
-                </div>
+                    </motion.div>                                     
+                </div>*/}
             </nav>
         </>
     )

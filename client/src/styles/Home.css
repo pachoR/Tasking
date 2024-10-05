@@ -35,5 +35,33 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
-    
+}
+
+.expandMore-buttom {
+    padding: 0.2rem 3rem;
+    background-color: transparent;
+    color: var(--red);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.expandMore-buttom svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.proj-btn {
+    margin: 0 1rem;
+    background-color: var(--orange);
+    color: var(--white);
 }

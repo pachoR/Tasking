@@ -6,12 +6,24 @@ import { redirect, useNavigate } from "react-router-dom";
 import LoadingMessage from "../miscellaneous/LoadingMessage";
 import CardProject from '../components/CardProject';
 import { changeDateFormat } from '../formatParser.js'; 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AnimatedButton from "../miscellaneous/AnimatedButton.jsx";
+import classNames from "classnames";
 const base_url = import.meta.env.VITE_BASE_URL;
 
 function Home(){
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    function redirectToProjectId(username, project){
+        navigate(`/${username}/${project}`);
+    }
+
+    function redirectToAllProjects(username){
+        navigate(`/${username}`);
+    }
 
     async function get_user_info() {
         const url = base_url + 'home';
@@ -25,6 +37,7 @@ function Home(){
             }
 
         } catch (err) {
+            navigate('/');
             console.error('!Error fetching user info: ', err);
         }
     }
@@ -52,7 +65,6 @@ function Home(){
     return (
         <>
             <NavBar/>
-
             { loading && <LoadingMessage/> }
 
             { !loading && projects && 
@@ -67,19 +79,41 @@ function Home(){
             {projects.length > 0 ? (
                 <div className="cards">
                 {projects.map((project) => (
-                    <CardProject key={project.id} props={{
-                        id: project.id,
+                    <button onClick={() => redirectToProjectId(project.username, project.project)} 
+                    style={{padding: '4px', borderRadius: '15px', border: '10rem', background: 'var(--red)'}}>
+                    <CardProject key={project.project_id} props={{
+                        id: project.project_id,
                         project: project.project,
                         rol: project.rol,
                         start_date: changeDateFormat(project.start_date),
                         end_date: changeDateFormat(project.end_date)
                     }}/>
+                    </button>
                 ))}
-                
+                <div style={{background: 'transparent', width: '100%', gridColumnStart: '1', gridColumnEnd: '-1'}}>
+                    <AnimatedButton buttonProps={{
+                        scaleInfo: {hover: 0.8, tap: 2.0},
+                        onClickFunction: () => redirectToAllProjects(projects[0].username),
+                        className: 'expandMore-buttom',
+                        component: <ExpandMoreIcon/>
+                    }}/>
+                </div>
                 </div>
                 ) : (
                     <div>No posts available for this user</div>
                 )}
+            </div>
+
+            <div className="project-buttons">
+                <AnimatedButton buttonProps={{
+                    text: 'Create project',
+                    className: 'proj-btn'
+                }}/>
+
+                <AnimatedButton buttonProps={{
+                    text: 'Join to project',
+                    className: 'proj-btn'
+                }}/>
             </div>
             </>
             }

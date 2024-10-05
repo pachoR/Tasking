@@ -120,11 +120,13 @@ app.get('/home', isAuthenticated, (req, res) => {
     }
 });
 
-app.get('/projects/:username', async (req, res) => {
+app.get('/projects/:username', isAuthenticated, async (req, res) => {
     const { username } = req.params;
 
     try {
-        const result = (await db.query('SELECT * FROM projectsUser WHERE username = $1', [username]));
+        const result = (await 
+        db.query('SELECT * FROM projectsUser WHERE username = $1 AND (end_date = NULL OR end_date >= CURRENT_DATE) ORDER BY start_date DESC', 
+        [username]));
         if(result.rows.length > 0){
             return res.status(200).json(result.rows);
         }else{
@@ -136,6 +138,27 @@ app.get('/projects/:username', async (req, res) => {
         return res.status(403).json({});
     } 
 });
+
+app.get('/:username', isAuthenticated, async (req, res) => {
+    const { username } = req.params;
+    
+    try {
+        const result = (await 
+        db.query('SELECT * FROM projectsUser WHERE username = $1 ORDER BY start_date DESC', [username]));
+        
+        if(result.rows.length > 0){
+            return res.status(200).json(result.rows);
+        }else{
+            return res.status(200).json([]);
+        }
+
+    } catch(error){
+        console.error(error);
+    }
+
+});
+
+
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
