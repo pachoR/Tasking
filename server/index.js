@@ -154,8 +154,33 @@ app.get('/:username', isAuthenticated, async (req, res) => {
 
     } catch(error){
         console.error(error);
+        return res.status(403).json({errorMessage: 'Error'});
     }
 
+});
+
+app.get('/:username/:project', isAuthenticated, async (req, res) => {
+    
+    /* 
+     * Returns all the information of certain project from x user.
+     * */
+
+
+    const { username, project } = req.params;
+    try {
+        const result = (await 
+        db.query('SELECT * FROM projectsUser WHERE username = $1 AND project = $2', [username, project]));
+        
+        if(result.rows.length > 0){
+            return res.status(200).json(result.rows);
+        }else{
+            return res.status(200).json(result.rows);
+        }
+
+    } catch(error) {
+        console.error(error);
+        return res.status(403).json({errorMessage: 'Error'});
+    }
 });
 
 

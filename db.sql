@@ -13,15 +13,14 @@ CREATE TABLE roles (
 
 
 CREATE TABLE projects (
-    project_id          SERIAL PRIMARY KEY UNIQUE NOT NULL,
+    project_id          SERIAL PRIMARY KEY,
     project_name        TEXT NOT NULL, 
     project_init_date   DATE NOT NULL, 
     project_end_date    DATE,
     project_creator     INT NOT NULL,
-    FOREIGN KEY (project_creator) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (project_creator) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE(project_name, project_creator)
 );
-
-
 
 CREATE TABLE users_projects (
     user_id             INT NOT NULL, 
@@ -41,8 +40,4 @@ CREATE VIEW projectsUser AS
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
 
-SELECT * FROM projectsUser WHERE username = 'pacho' AND (end_date = NULL OR end_date >= CURRENT_DATE)
-SELECT * FROM projectsUser WHERE username = 'pacho' AND (end_date = NULL OR end_date >= CURRENT_DATE) ORDER BY start_date DESC
-
-
-SELECT * FROM projectsUser WHERE username = 'pacho' AND project = 'Tasking';
+SELECT * FROM users
