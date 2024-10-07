@@ -79,7 +79,7 @@ function Home(){
             {projects.length > 0 ? (
                 <div className="cards">
                 {projects.map((project) => (
-                    <button onClick={() => redirectToProjectId(project.username, project.project)} 
+                    <button key={project.project_id} onClick={() => redirectToProjectId(project.username, project.project)} 
                     style={{padding: '4px', borderRadius: '15px', border: '10rem', background: 'var(--red)'}}>
                     <CardProject key={project.project_id} props={{
                         id: project.project_id,

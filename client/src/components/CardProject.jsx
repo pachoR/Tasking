@@ -17,11 +17,13 @@ function CardProject({props}){
                     style={{widht: '100%', display: 'flex', flexDirection: 'column', 
                     justifyContent: 'start', alignItems: 'start'}}>
                         <Typography sx={{color: 'var(--red)'}} variant="body1" color="text.secondary">
-                            <p>{props.rol}</p>
+                            <span>{props.rol}</span>
                         </Typography>
-                        <Typography sx={{fontStyle: 'Times New Roman', paddingLeft: '0.5rem',}} variant='body2'>
-                                <p><b>Started at:</b> {props.start_date}</p>
-                                <p style={{fontStyle: 'italic'}}><b>Due to:</b> {props.end_date}</p>
+                        <Typography sx={{fontStyle: 'Times New Roman', paddingLeft: '0.5rem', paddingTop: '1rem'}} variant='body2'>
+                                <span>
+                                <b>Started at:</b> {props.start_date}<br/>
+                                <i><b>Due to:</b></i> {props.end_date}
+                                </span>
                         </Typography>
                     </div>
                 </CardContent>

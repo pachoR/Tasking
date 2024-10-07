@@ -12,4 +12,4 @@ AFTER INSERT ON projects
 FOR EACH ROW
 EXECUTE FUNCTION trigger_insert_projects();
 
-INSERT INTO projects (project_name, project_init_date, project_end_date, project_creator) VALUES ('Load', CURRENT_DATE, CURRENT_DATE + INTERVAL '21 days', 18);
+INSERT INTO projects (project_name, project_init_date, project_end_date, project_creator) VALUES ('Tasking', CURRENT_DATE, NULL, 18);

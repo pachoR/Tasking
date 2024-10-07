@@ -125,7 +125,7 @@ app.get('/projects/:username', isAuthenticated, async (req, res) => {
 
     try {
         const result = (await 
-        db.query('SELECT * FROM projectsUser WHERE username = $1 AND (end_date = NULL OR end_date >= CURRENT_DATE) ORDER BY start_date DESC', 
+        db.query('SELECT * FROM projectsUser WHERE username = $1 AND (end_date = NULL OR end_date >= CURRENT_DATE OR end_date IS NULL) ORDER BY start_date DESC', 
         [username]));
         if(result.rows.length > 0){
             return res.status(200).json(result.rows);
@@ -162,7 +162,7 @@ app.get('/:username', isAuthenticated, async (req, res) => {
 app.get('/:username/:project', isAuthenticated, async (req, res) => {
     
     /* 
-     * Returns all the information of certain project from x user.
+     * Get the specific project of certain user
      * */
 
 
@@ -174,7 +174,7 @@ app.get('/:username/:project', isAuthenticated, async (req, res) => {
         if(result.rows.length > 0){
             return res.status(200).json(result.rows);
         }else{
-            return res.status(200).json(result.rows);
+            return res.status(200).json([]);
         }
 
     } catch(error) {
@@ -183,7 +183,22 @@ app.get('/:username/:project', isAuthenticated, async (req, res) => {
     }
 });
 
-
+app.get('/api/getUsers/:projectId', isAuthenticated, async (req, res) => {
+    const { projectId } = req.params;
+    try {
+        const result = (await 
+        db.query('SELECT * FROM projectsuser WHERE project_id = $1', [ projectId ]));
+        
+        if(result.rows.length > 0){
+            return res.status(200).json(result.rows);
+        }else{
+            return res.status(200).json([]);
+        }
+    } catch(error){
+        console.error(error);
+        return res.status(403).json({errorMessage: error});
+    }
+});
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);

@@ -63,7 +63,7 @@ function User(){
                         <div className="users-cards">
                             {projects.map((project) => {
                                 return (
-                                <button onClick={() => redirectToProjectId(project.username, project.project)} 
+                                <button key={project.project_id} onClick={() => redirectToProjectId(project.username, project.project)} 
                                 style={{padding: '4px', borderRadius: '15px', border: '10rem', background: 'var(--red)'}}>
                                     <CardProject props={{
                                         id: project.project_id,

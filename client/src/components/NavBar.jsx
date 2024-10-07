@@ -3,17 +3,21 @@ import classNames from 'classnames';
 import Options from '../assets/options.svg?react'
 import { motion, useAnimation } from "framer-motion";
 import AnimatedButton from '../miscellaneous/AnimatedButton';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import '../styles/NavBar.css';
+const base_url = import.meta.env.VITE_BASE_URL;
 
 function NavBar(){
 
     const controls = useAnimation();
-
+    const navigate = useNavigate();
     function clickOnOptions(){
         alert('hi');
     }
 
     const [hoveredItem, setHoveredItem] = useState(null);
+    const [username, setUsername] = useState('');
 
     function itemMouseEntered(item) {
         setHoveredItem(item);
@@ -23,20 +27,27 @@ function NavBar(){
         setHoveredItem(null);
     }
 
-    useEffect(() => {
-        controls.start({
-            rotate: [null, 360 * 1],
-            transition: {
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear"
+
+    async function get_user_info() {
+        const url = base_url + 'home';
+        try {
+            const res = await axios.get(url, { withCredentials: true });           
+            if(res.data && res.data.user && res.data.user.username){ 
+                setUsername(res.data.user.username); 
+            }else{
+                navigate('/');
             }
-        })
 
-        setTimeout(1, 3000);
-    }, [controls]);
+        } catch (err) {
+            navigate('/');
+            console.error('!Error fetching user info: ', err);
+        }
+    }
 
-    
+
+    useEffect(() => {
+        get_user_info();
+    }, []);
 
     return (
         <>
@@ -49,7 +60,8 @@ function NavBar(){
                     onMouseLeave={itemMouseLeave}
                     className={classNames('menu-item', 
                     {'menu-not-item-hovered': hoveredItem !== 'Your projects' && hoveredItem !== null})}>
-                        <a>Your projects</a>
+                        {username &&
+                        <a href={`/${username}`}>Your projects</a>}
                     </li>
 
                     <li 
@@ -69,18 +81,7 @@ function NavBar(){
                     </li>
                 </ul>
 
-                {/*<div className="user-options">
-                    <motion.div 
-                    animate={controls}>
-                        <AnimatedButton buttonProps={{
-                            svg: <Options className="options-svg"/>,
-                            onClickFunction: clickOnOptions,
-                            className: "options-svg"
-                        }}
-                        />  
-                    </motion.div>                                     
-                </div>*/}
-            </nav>
+                </nav>
         </>
     )
 }

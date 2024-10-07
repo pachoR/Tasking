@@ -39,5 +39,9 @@ CREATE VIEW projectsUser AS
     INNER JOIN projects AS p ON p.project_id = up.project_id
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
+CREATE VIEW allUsersProjects AS
+    SELECT p.project_id AS "project_id", p.project_name AS "project", u.username as "username"
+    FROM users AS u
+    INNER JOIN users_projects AS up ON u.user_id = up.user_id
+    INNER JOIN projects AS p ON up.project_id = p.project_id
 
-SELECT * FROM users
