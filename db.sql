@@ -39,9 +39,22 @@ CREATE VIEW projectsUser AS
     INNER JOIN projects AS p ON p.project_id = up.project_id
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
-CREATE VIEW allUsersProjects AS
-    SELECT p.project_id AS "project_id", p.project_name AS "project", u.username as "username"
-    FROM users AS u
-    INNER JOIN users_projects AS up ON u.user_id = up.user_id
-    INNER JOIN projects AS p ON up.project_id = p.project_id
+SELECT * FROM users WHERE username = 'pacho'
 
+
+CREATE TABLE task (
+    task_id         SERIAL PRIMARY KEY, 
+    task_title      VARCHAR(50) NOT NULL,
+    task_descp      VARCHAR(100) NOT NULL,
+    task_init       DATE NOT NULL,
+    task_end        DATE,
+    project_id      INT NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE task_user (
+    task_id         INT NOT NULL,
+    user_id         INT NOT NULL,
+    done            BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+)
