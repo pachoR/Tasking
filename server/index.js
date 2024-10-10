@@ -140,6 +140,9 @@ app.get('/projects/:username', isAuthenticated, async (req, res) => {
 });
 
 app.get('/:username', isAuthenticated, async (req, res) => {
+    /*
+     * Get all the projects from a username
+     */
     const { username } = req.params;
     
     try {
@@ -197,6 +200,45 @@ app.get('/api/getUsers/:projectId', isAuthenticated, async (req, res) => {
     } catch(error){
         console.error(error);
         return res.status(403).json({errorMessage: error});
+    }
+});
+
+
+app.get('/api/getUserInfo/:username', isAuthenticated, async (req, res) => {
+    const { username } = req.params;
+    
+    try {
+        const result = (await 
+        db.query('SELECT user_id AS "user_id", username AS "username", email AS "email" FROM users WHERE username = $1', [ username ]));
+
+        if(result.rows.length > 0){
+            return res.status(200).json(result.rows);
+        } else {
+            return res.status(200).json({});
+        } 
+    } catch(error) {
+        console.error(error);
+        return res.status(403).json({errorMessage: error});
+    }
+});
+
+app.post('/api/createProject/:username/:new_project', isAuthenticated, async(req, res) => {
+    const { username, new_project } = req.params;
+    const user = req.body;
+
+    if(!user.due_date){
+        user.due_date = null;
+    }
+    try {
+        const result = (await
+        db.query("INSERT INTO projects (project_name, project_init_date, project_end_date, project_creator) VALUES($1, $2, $3, $4);", 
+        [user.project, user.init_date, user.due_date, user.user_id]));
+
+        res.status(200).json({redirect: `/${user.username}/${user.project}`})
+
+    } catch(error) {
+        console.error(error);
+        return res.status(403).json({errorMessage: 'The project was not created'});
     }
 });
 

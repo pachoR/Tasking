@@ -12,6 +12,7 @@ function Project(){
 
     const { username, project } = useParams();
     const [projectInfo, setProjectInfo] = useState({});
+    const [user, setUser] = useState({}); 
     const [loading, setLoading] = useState(true);
     
     async function get_projectInfo(){
@@ -39,14 +40,19 @@ function Project(){
             <div className='project-container'>
                 <div className='project-title'>
                     <h1>{project}</h1>
-                    <h4 className='user-rol'>{projectInfo.rol}</h4>
+                    <h4 className='user-rol'>as a <b>{projectInfo.rol}</b></h4>
                 </div>
 
                 {projectInfo && 
                     <div className='projectInfo-display'>                    
-                        <MembersList props={{
-                            project_id: projectInfo.project_id
-                        }}/>
+                        <div>
+                            <h2>Hi</h2> 
+                        </div>
+                        <div>
+                            <MembersList props={{
+                                project_id: projectInfo.project_id
+                            }}/> 
+                        </div>
                     </div>
                 }
             </div>

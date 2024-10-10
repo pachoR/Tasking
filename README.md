@@ -1,6 +1,6 @@
 The permissions managed on every single project are structure on a SMALLINT where each bit
 represent a certain permission/privilege, so if that bit is a 1 it means that the user got
-permission to perform that operation, 0 if not.
+permission to perform that operation, 0 if not. The bit number zero is the one at the far-right
 
 1. View Tasks (bit 0): Allows the user to view tasks in the project.
 2. Edit Tasks (bit 1): Allows the user to modify existing tasks.

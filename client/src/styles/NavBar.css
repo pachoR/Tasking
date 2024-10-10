@@ -22,6 +22,11 @@
     font-weight: bold;
 }
 
+.title a {
+    color: var(--orange);
+    text-decoration: none;
+}
+
 .menu {
     display: flex;
     list-style-type: none;

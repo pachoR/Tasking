@@ -52,7 +52,7 @@ function NavBar(){
     return (
         <>
             <nav className="header-container">
-                <div className="title">Tasking</div>
+                <div className="title"><a href='/home'>Tasking</a></div>
 
                 <ul className="menu">
                     <li 

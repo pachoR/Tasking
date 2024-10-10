@@ -26,7 +26,7 @@ function ModalLogin({closeModal}){
 
         try {
           const url = base_url + 'welcome/login'
-          
+          console.log(url);
           const res = await axios.post(url, data);
           if(res.status == 200){
             navigate(res.data.redirect, {state: 200});
@@ -41,10 +41,7 @@ function ModalLogin({closeModal}){
           }
         }  
         
-    }
-
-
-    console.log("error_message", error_message);
+    } 
 
 
     return (

@@ -1,0 +1,183 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.4);
+    color: var(--orange);
+    transition: width 2s, height 4s;
+}
+
+.info-container {  
+  background-color: var(--beige);
+  display: grid;
+  height: auto;
+  width: 40%;
+  border-radius: 20px; 
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1rem 0 1rem; 
+}
+
+.header {
+  color: var(--white);
+  background-color: var(--red);
+  font-size: 2rem;
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between; 
+  align-items: center;
+  height: auto;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+}
+
+.title {
+  flex: 1; 
+  display: flex;
+  justify-content: start; 
+}
+
+.title h4 { 
+  margin: 0;
+  padding-left: 2rem;
+  padding-bottom: 0.8rem;
+}
+
+.close-symbol-area {
+  height: 100%;
+}
+
+.close-symbol {
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* Alinea el botón de cierre al extremo derecho */
+  margin: 0;
+  padding: 0;
+  padding-left: 2rem;
+  margin-top: 1rem;
+  height: 1.1rem;
+}
+
+.close-button {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 1.1rem;
+}
+
+.close-svg {
+  fill: var(--beige);
+  height: 1.1rem;
+  width: 1.5rem;
+}
+
+.input {
+  background-color: var(--beige);
+  color: var(--red);
+}
+
+.shadow-box {
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.2), 
+              4px 0 6px -2px rgba(0, 0, 0, 0.2),
+              -4px 0 6px -2px rgba(0, 0, 0, 0.2); 
+}
+
+.form-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 10px;
+}
+
+.form-info label {
+  display: flex;
+  align-items: center;
+}
+
+#project-len {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 1rem;
+  padding-top: 3px;
+}
+
+.form-info input {
+  border: none;
+  border-radius: 50px;
+  color: var(--orange);
+  background-color: var(--white);
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.form-info input:focus {
+    outline: none;
+}
+
+.submitButton-area {
+  grid-column: span 2; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0 1rem 0;
+  margin-top: 0rem;
+}
+
+.submitButton {
+  background-color: var(--red);
+  color: var(--white);
+  padding: 0.5rem 2rem; 
+}
+
+.errorMessage-area {
+  grid-column-start: 2;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+
+.errorMessage-area h2 {
+  color: red;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.date {
+  padding: 0;
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+.date p {
+  padding: 0;
+  margin: 0;
+}
+
+.date-error {
+  grid-column-start: 1;
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 0.8rem;
+}

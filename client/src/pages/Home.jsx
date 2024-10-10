@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import '../styles/Home.css';
 import axios from 'axios';
 import NavBar from '../components/NavBar';
-import { redirect, useNavigate } from "react-router-dom";
+import CreateProjectButton from '../miscellaneous/CreateProjectButton.jsx';
 import LoadingMessage from "../miscellaneous/LoadingMessage";
-import CardProject from '../components/CardProject';
-import { changeDateFormat } from '../formatParser.js'; 
+import CardProject from '../components/CardProject'; 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AnimatedButton from "../miscellaneous/AnimatedButton.jsx";
 import classNames from "classnames";
+import { changeDateFormat } from '../formatParser.js';
 const base_url = import.meta.env.VITE_BASE_URL;
 
 function Home(){
@@ -105,10 +106,7 @@ function Home(){
             </div>
 
             <div className="project-buttons">
-                <AnimatedButton buttonProps={{
-                    text: 'Create project',
-                    className: 'proj-btn'
-                }}/>
+                <CreateProjectButton props={{user_info: user}}/>
 
                 <AnimatedButton buttonProps={{
                     text: 'Join to project',
