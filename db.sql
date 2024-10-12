@@ -11,7 +11,6 @@ CREATE TABLE roles (
     permissions         SMALLINT NOT NULL
 );
 
-
 CREATE TABLE projects (
     project_id          SERIAL PRIMARY KEY,
     project_name        TEXT NOT NULL, 
@@ -39,10 +38,9 @@ CREATE VIEW projectsUser AS
     INNER JOIN projects AS p ON p.project_id = up.project_id
     INNER JOIN roles AS r ON up.rol_id = r.rol_id
 
-SELECT * FROM users WHERE username = 'pacho'
+INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('IoT interconection', 'Connecting V1 devices with the main server', CURRENT_DATE, NULL, 9);
 
-
-CREATE TABLE task (
+CREATE TABLE tasks (
     task_id         SERIAL PRIMARY KEY, 
     task_title      VARCHAR(50) NOT NULL,
     task_descp      VARCHAR(100) NOT NULL,
@@ -52,9 +50,23 @@ CREATE TABLE task (
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE task_user (
+CREATE TABLE tasks_user (
     task_id         INT NOT NULL,
     user_id         INT NOT NULL,
     done            BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
-)
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- Retrieves the all the tasks from each project
+CREATE VIEW tasks_projects AS 
+    SELECT p.project_name AS "project", u.username AS "username", t.task_title AS "task_title", t.task_descp AS "task_desc", t.task_init 
+    AS "start_date", t.task_end AS "due_date"
+    FROM tasks as t 
+    INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
+    INNER JOIN projects AS p ON t.project_id = p.project_id
+    INNER JOIN users AS u ON u.user_id = tu.user_id
+
+
+select * from tasks_projects

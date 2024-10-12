@@ -7,6 +7,10 @@
 .list-title {
   color: var(--white);
   font-size: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .list-title h5 { 
@@ -21,6 +25,14 @@
   border-radius: 10px 10px 20px 20px;
   padding-bottom: 1rem;
   overflow-y: scroll; 
+}
+
+.addButton {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  padding-bottom: 1rem;
+  color: var(--white);
 }
 
 .list-member {

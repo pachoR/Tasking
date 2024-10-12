@@ -17,7 +17,7 @@ function CreateProjectButton({props}){
   function closeModal(redirect_url){
     setIsModal(false);
   }
-
+ 
   async function get_userFullInfo(username){
     try { 
       const response = await axios.get(base_url+`api/getUserInfo/${username}`); 

@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar.jsx';
 import LoadingMessage from '../miscellaneous/LoadingMessage.jsx';
 import ErrorMessage from '../miscellaneous/ErrorMessage.jsx';
 import CardProject from '../components/CardProject.jsx'
+import CreateProjectButton from '../miscellaneous/CreateProjectButton.jsx'
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { changeDateFormat } from '../formatParser.js'
@@ -54,8 +55,8 @@ function User(){
             <NavBar/>
             <div className="user-container">
                 <div className="user-title">
-                    <h1>Your projects, {username}</h1>
-                </div>
+                    <h1>Your projects, {username}</h1> 
+                </div> 
 
                 <div className="user-projects">
                     {loading && <LoadingMessage/>} 

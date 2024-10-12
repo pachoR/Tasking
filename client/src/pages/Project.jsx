@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import MembersList from '../components/MembersList.jsx';
 import LoadingMessage from '../miscellaneous/LoadingMessage.jsx'
 import { useParams } from 'react-router-dom';
+import { is_PM, flag_bit, if_can } from '../permission.js';
 import axios from 'axios';
 import '../styles/Project.css';
 
@@ -46,11 +47,14 @@ function Project(){
                 {projectInfo && 
                     <div className='projectInfo-display'>                    
                         <div>
-                            <h2>Hi</h2> 
+                            
+                            <h2>Hi</h2>
                         </div>
                         <div>
                             <MembersList props={{
-                                project_id: projectInfo.project_id
+                                project_id: projectInfo.project_id,
+                                project: project,
+                                current_user: username
                             }}/> 
                         </div>
                     </div>

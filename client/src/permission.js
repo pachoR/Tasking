@@ -17,6 +17,10 @@ const flag_bit = {
   MANAGE_BUDGET: 15
 }
 
+function is_PM(permissions){
+  return permissions == ~0;
+}
+
 function if_can(permissions, bit_flag){
   if(bit_flag > 0 && bit_flag < 16){
     const flag = 1 << bit_flag;
@@ -26,4 +30,4 @@ function if_can(permissions, bit_flag){
   }
 }
 
-export { flag_bit, if_can };
+export { flag_bit, if_can, is_PM };
