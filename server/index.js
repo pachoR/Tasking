@@ -242,6 +242,61 @@ app.post('/api/createProject/:username/:new_project', isAuthenticated, async(req
     }
 });
 
+app.get('/api/getTask/:taskId',  isAuthenticated, async(req, res) => {
+    /*
+     * Select an especific task info
+     */
+
+    const { taskId } = req.params;
+    
+    try {
+        const result = (await
+        db.query("SELECT * FROM tasks WHERE task_id = $1", [ taskId ])); 
+               
+        return res.status(200).json(result.rows);
+        
+
+    } catch (error) {
+        console.error(error);
+        return res.status(403).json({errorMessage: `error fetching task information ${taskId}`});
+    }
+});
+
+app.get('/api/getTask/:username/:taskId', isAuthenticated, async (req, res) => {
+    
+    const { username, taskId } = req.params;
+
+    try {
+        const result = (await
+        db.query("SELECT * FROM task_user WHERE username = $1 AND task_id = $2", [username, taskId]));
+
+        return res.status(200).json(result.rows);
+
+    } catch(error) {
+        console.error(error);
+        return res.status(400).json({errorMessage: `error fetching taks informatino ${taskId} for the user ${username}`})
+    }
+});
+
+
+app.get('/api/getTasksUser/:username', isAuthenticated, async (req, res) => {
+    /*
+     * Select all the tasks from an specific user;
+     */
+    
+    const { username } = req.params;
+
+    try {
+        const result = (await
+        db.query("SELECT * FROM tasks_projects WHERE username = $1 ORDER BY due_date ASC", [username]));
+
+        return res.status(200).json(result.rows);
+    } catch(error) {
+        console.error(error);
+        return res.status(400).json({errorMessage: `error fetching tasks for the user: ${username}`})
+    }
+});
+
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 });

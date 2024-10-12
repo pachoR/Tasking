@@ -1,0 +1,26 @@
+.todo-title {
+  color: var(--red);
+  margin: 0;
+}
+
+.todo-title h1 {
+  margin: 0;
+  padding: 0.7rem;
+  padding-bottom: 1.7rem;
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); 
+}
+
+.tasks-container {
+  grid-column: 1 / span 8; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+

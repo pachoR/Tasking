@@ -44,11 +44,16 @@ CREATE TABLE tasks (
     task_id         SERIAL PRIMARY KEY, 
     task_title      VARCHAR(50) NOT NULL,
     task_descp      VARCHAR(100) NOT NULL,
-    task_init       DATE NOT NULL,
-    task_end        DATE,
+    task_init       TIMESTAMP NOT NULL,
+    task_end        TIMESTAMP,
     project_id      INT NOT NULL,
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('Make the to do Page', 
+'Redirect to a todo page that shows all the pending task order by time label',NOW(), NULL, 3);
+
+SELECT * FROM tasks
 
 CREATE TABLE tasks_user (
     task_id         INT NOT NULL,
@@ -58,15 +63,20 @@ CREATE TABLE tasks_user (
     FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
 -- Retrieves the all the tasks from each project
 CREATE VIEW tasks_projects AS 
-    SELECT p.project_name AS "project", u.username AS "username", t.task_title AS "task_title", t.task_descp AS "task_desc", t.task_init 
-    AS "start_date", t.task_end AS "due_date"
+    SELECT p.project_name AS "project", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_desc", 
+    t.task_init AS "start_date", t.task_end AS "due_date", tu.done AS "done"
     FROM tasks as t 
     INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
     INNER JOIN projects AS p ON t.project_id = p.project_id
     INNER JOIN users AS u ON u.user_id = tu.user_id
+    
 
-
-select * from tasks_projects
+CREATE VIEW task_user AS 
+    SELECT u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date",
+    t.task_end AS "end_date", tu.done AS "done", p.project_id AS "project_id", p.project_name AS "project_name"
+    FROM tasks AS t 
+    INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
+    INNER JOIN projects AS p ON t.project_id = p.project_id 
+    INNER JOIN users AS u ON u.user_id = tu.user_id

@@ -1,0 +1,57 @@
+.task-container {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid var(--light-green);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start horizontally */
+}
+
+.task-container * {
+  padding-left: 1rem;
+}
+
+.task-title {
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between; 
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  color: var(--dark-green);
+  max-width: 90%;
+}
+
+.task-title h4 {
+  margin: 0; 
+  text-align: left; /* Ensure text within h4 is left-aligned */
+}
+
+.project-name {
+  color: var(--red);
+  padding-left: 1rem;
+  font-size: 1rem; 
+}
+
+.task-dates {
+  display: flex;
+  flex-direction: row; 
+}
+
+.task-dates p {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem; 
+}
+
+.task-descp {
+  padding-left: 0.6rem;
+  color: var(--dark-green);
+  max-width: 90%;
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

@@ -24,4 +24,19 @@ function changeDateFormat(date){
     return `${day} ${month} ${year}`;
 }
 
-export { changeDateFormat };
+function webFormatTaskDate(date){
+
+    if(!date){
+        return "No specified date";
+    }
+
+    const year = date.slice(0,4);
+    const month = date[5] + date[6];
+    const day = date[8] + date[9];
+
+    const hour = date.slice(11, 19);
+
+    return `${day}/${month}/${year} : ${hour}`
+}
+
+export { changeDateFormat, webFormatTaskDate };

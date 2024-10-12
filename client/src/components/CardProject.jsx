@@ -26,7 +26,7 @@ function CardProject({props}){
                         <Typography sx={{fontStyle: 'Times New Roman', paddingLeft: '0.5rem', paddingTop: '1rem'}} variant='body2'>
                                 <span>
                                 <b>Started at:</b> {props.start_date}<br/>
-                                <i><b>Due to:</b></i> {props.end_date}
+        <i><b>Due to:</b></i> {props.end_date}
                                 </span>
                         </Typography>
                     </div>
