@@ -36,8 +36,11 @@
 }
 
 .task-dates {
+  width: 40%;
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .task-dates p {

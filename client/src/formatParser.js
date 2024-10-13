@@ -25,11 +25,9 @@ function changeDateFormat(date){
 }
 
 function webFormatTaskDate(date){
-
     if(!date){
         return "No specified date";
     }
-
     const year = date.slice(0,4);
     const month = date[5] + date[6];
     const day = date[8] + date[9];
@@ -39,4 +37,29 @@ function webFormatTaskDate(date){
     return `${day}/${month}/${year} : ${hour}`
 }
 
-export { changeDateFormat, webFormatTaskDate };
+function compareDates_JSONformat(date1, date2){
+    
+}
+
+function compareNow_JSONformat(JSONdate){
+    /*
+     * -1 = JSONgreater  
+     *  0 = equals dates
+     *  1 = NOW greater
+     */
+
+    const now = new Date();    
+    const input_date = new Date(JSONdate.date);
+    console.log('now', now);
+    console.log('json', input_date);
+    if(now == input_date){
+        return 0;
+    }else if (now < input_date){
+        return -1;
+    }else{
+        return 1;
+    }
+    
+}
+
+export { changeDateFormat, webFormatTaskDate, compareDates_JSONformat, compareNow_JSONformat };

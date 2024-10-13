@@ -53,6 +53,9 @@ CREATE TABLE tasks (
 INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('Make the to do Page', 
 'Redirect to a todo page that shows all the pending task order by time label',NOW(), NULL, 3);
 
+INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('Acabar Dosto', 
+'acabar con el libro de El Adolescente de Dostoievsky',NOW(), NOW() + INTERVAL '1 week', 3);
+
 SELECT * FROM tasks
 
 CREATE TABLE tasks_user (
@@ -62,7 +65,7 @@ CREATE TABLE tasks_user (
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+    
 -- Retrieves the all the tasks from each project
 CREATE VIEW tasks_projects AS 
     SELECT p.project_name AS "project", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_desc", 
@@ -80,3 +83,6 @@ CREATE VIEW task_user AS
     INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
     INNER JOIN projects AS p ON t.project_id = p.project_id 
     INNER JOIN users AS u ON u.user_id = tu.user_id
+
+SELECT * FROM task_user WHERE username = 'daniel' AND task_id = 2
+

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import LoadingMessage from '../miscellaneous/LoadingMessage.jsx'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
-import { webFormatTaskDate } from '../formatParser.js';
+import { webFormatTaskDate, compareNow_JSONformat} from '../formatParser.js';
 import axios from 'axios';
 import '../styles/Task.css'
 const base_url = import.meta.env.VITE_BASE_URL;
 
 function Task({task_id, username}){
 
-  const [taskInfo, setTaskInfo] = useState({});
+  const [taskInfo, setTaskInfo] = useState(null);
   const [endState, setEndState] = useState('');
   
   async function get_taskInfo(){
@@ -15,24 +16,42 @@ function Task({task_id, username}){
     setTaskInfo(response.data[0]);
     console.log(response.data[0]);
   }
- 
+  
+  useEffect(() => {
+    if(taskInfo && !taskInfo.done){  
+      const flag = compareNow_JSONformat({date: taskInfo.end_date})
+      console.log(taskInfo.task_title,flag);
+      if(flag >= 0){
+        setEndState('overdue');
+      }else{
+        setEndState('pending');
+      }
+    }else if(taskInfo && taskInfo.done){
+      setEndState('done');
+    }
+    
+  })
 
   useEffect(() => {
     get_taskInfo();
   }, []);
 
   if(!taskInfo){ 
-    return null;
+    return <LoadingMessage/>;
   }
 
-  return (
+  return ( 
     <div className="task-container">
       <div className="task-title">
         <h4>{taskInfo.task_title} <span className="project-name">({taskInfo.project_name})</span></h4>
       </div>
 
       <div className="task-dates"> 
-        <p>Due: { webFormatTaskDate(taskInfo.task_end) }</p> 
+        <p>Due to: { webFormatTaskDate(taskInfo.end_date) } </p>
+        <div>
+          <p><b>status: {endState}</b></p>
+          {endState == 'overdue'} 
+        </div><
       </div>
 
       <div className="task-descp">
