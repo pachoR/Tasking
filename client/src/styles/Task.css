@@ -4,10 +4,11 @@
   border: 2px solid var(--light-green);
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align items to the start horizontally */
+  align-items: flex-start;
+  cursor: pointer;
 }
 
-.task-container * {
+.pdLeft {
   padding-left: 1rem;
 }
 
@@ -57,4 +58,69 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: flex-end;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  padding: 0.25em 0.5em;
+  background-color: var(--white); 
+  text-align: center;
+  border-radius: 0.25em;
+  white-space: nowrap;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 100%;
+  transition-property: visibility;
+  transition-delay: 0s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  transition-delay: 0.3s;
+}
+
+.pending {
+  fill: var(--orange);
+  color: var(--orange); 
+}
+
+.pending-border {
+  border: 1px solid var(--orange);
+}
+
+.overdue {
+  fill: red;
+  color: red; 
+}
+
+.overdue-border {
+  border: 1px solid red;
+}
+
+.done {
+  fill: var(--dark-green);
+  color: var(--dark-green); 
+}
+
+.done-border {
+  border: 1px solid var(--dark-green);
 }

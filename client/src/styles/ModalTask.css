@@ -1,0 +1,140 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed; 
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, 0.2); 
+  color: var(--orange);
+  transition: width 2s, height 4s;
+  cursor: default;
+}
+
+.shadow-box {
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.2), 
+              4px 0 6px -2px rgba(0, 0, 0, 0.2),
+              -4px 0 6px -2px rgba(0, 0, 0, 0.2); 
+}
+
+.modal-container {
+  display: flex; 
+  flex-direction: column;
+  width: 60%;
+  height: 60%;
+  background-color: var(--white);
+  border-radius: 20px;
+}
+
+.close-symbol { 
+  background-color: var(--light-green);
+  width: 100%;
+  height: 20px; 
+  padding: 10px 0;
+  margin: 0;
+  padding-left: 0;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.close-symbol div { 
+  padding-right: 0.7rem;
+}
+
+.close-svg {
+  fill: var(--white);
+}
+
+.modal-title {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.modal-title h1 {
+  padding: 0;
+  margin: 0;
+  margin-top: 1rem;
+  font-size: 2rem;
+  color: var(--dark-green);
+}
+
+.modal-info {
+  display: flex;
+  flex-direction: column; 
+}
+
+.state-modal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1.5rem; 
+  padding-left: 3rem; 
+}
+
+#svg-state {
+  heigth: 100%; 
+}
+
+.modal-head {
+  padding: 0.3rem 1rem;
+  margin : 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-endDate { 
+  paddgin: 0;
+  margin: 0;
+}
+
+.modal-endDate p {
+  margin: 0;
+}
+
+.modal-initInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.4rem 15%;
+  font-size: 0.75rem;
+  color: var(--light-orange);
+}
+
+.modal-initInfo p {
+  margin: 0;
+}
+
+.modal-desc {
+  color: var(--dark-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%; 
+  margin-top: 1rem;
+  padding: 0 0rem;
+}
+
+.modal-desc h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+  color: var(--orange);
+  padding-left: 2rem;
+}
+
+.modal-desc p { 
+  display: flex;
+  margin: 1rem 1.5rem; 
+  text-align: justify;
+}

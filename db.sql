@@ -47,14 +47,12 @@ CREATE TABLE tasks (
     task_init       TIMESTAMP NOT NULL,
     task_end        TIMESTAMP,
     project_id      INT NOT NULL,
+    task_creator    INT NOT NULL, 
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('Make the to do Page', 
-'Redirect to a todo page that shows all the pending task order by time label',NOW(), NULL, 3);
-
-INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('Acabar Dosto', 
-'acabar con el libro de El Adolescente de Dostoievsky',NOW(), NOW() + INTERVAL '1 week', 3);
+ALTER TABLE tasks
+ALTER COLUMN task_descp TYPE VARCHAR(300)
 
 SELECT * FROM tasks
 
@@ -78,11 +76,16 @@ CREATE VIEW tasks_projects AS
 
 CREATE VIEW task_user AS 
     SELECT u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date",
-    t.task_end AS "end_date", tu.done AS "done", p.project_id AS "project_id", p.project_name AS "project_name"
+    t.task_end AS "end_date", tu.done AS "done", p.project_id AS "project_id", p.project_name AS "project_name", uc.username AS "task_creator"
     FROM tasks AS t 
     INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
     INNER JOIN projects AS p ON t.project_id = p.project_id 
     INNER JOIN users AS u ON u.user_id = tu.user_id
+    INNER JOIN users AS uc ON uc.user_id = t.task_creator
 
-SELECT * FROM task_user WHERE username = 'daniel' AND task_id = 2
 
+SELECT * FROM tasks
+
+UPDATE tasks 
+SET task_descp = 'Conecta sensores de temperatura, iluminación, movimiento y humedad a internet. Recopila datos en tiempo real a través de una plataforma centralizada. Automatiza acciones como encender luces, ajustar el termostato o activar sistemas de ventilación, optimizando el consumo energético del hogar'
+WHERE task_id = 4

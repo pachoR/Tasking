@@ -34,7 +34,7 @@ function webFormatTaskDate(date){
 
     const hour = date.slice(11, 19);
 
-    return `${day}/${month}/${year} : ${hour}`
+    return `${day}-${month}-${year.slice(2,4)} : ${hour}`
 }
 
 function compareDates_JSONformat(date1, date2){
@@ -50,8 +50,6 @@ function compareNow_JSONformat(JSONdate){
 
     const now = new Date();    
     const input_date = new Date(JSONdate.date);
-    console.log('now', now);
-    console.log('json', input_date);
     if(now == input_date){
         return 0;
     }else if (now < input_date){

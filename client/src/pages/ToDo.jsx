@@ -28,6 +28,21 @@ function ToDo(){
     get_userTasks();
   }, [])
 
+  if(tasks && tasks.length == 0){
+    return (
+      <>
+        <NavBar/>
+        <div className="todo-title">
+          <h1>To Do</h1>
+        </div>
+
+        <div>
+          <h3 style={{fontSize: '2rem'}}>No tasks ever asigned to this user<br/>:(</h3>
+        </div>
+      </>
+    );
+  }
+
 return (
     <>
       <NavBar/>
