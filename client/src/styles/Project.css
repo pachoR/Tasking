@@ -35,3 +35,34 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
+
+.project-task {
+  padding-left: 0.8rem;
+  width: calc(100% - 1rem); 
+  padding-bottom: 1rem;
+}
+
+.task-preview {
+  width: 95%;
+}
+
+.expandMoreContainer {
+  padding: 0;
+  margin: 0;
+  backgroundColor: var(--white);
+  fill: var(--orange);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.expand-button {
+  background-color: var(--white);
+  color: var(--dark-green);  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.8;
+  
+}

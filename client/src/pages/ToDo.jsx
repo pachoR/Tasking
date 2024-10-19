@@ -1,32 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar.jsx'
-import LoadingMessage from '../miscellaneous/LoadingMessage.jsx';
 import Task from '../components/Task.jsx';
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
+import TaskFilter from '../miscellaneous/TaskFilter.jsx';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../styles/ToDo.css';
 const base_url = import.meta.env.VITE_BASE_URL;
 
 function ToDo(){
-
-  const { username } = useParams();
-  const [ loading, setLoading ] = useState(true);
-  const [tasks, setTasks] = useState([]);
+  const { username, project } = useParams();  
+  const [ tasks, setTasks ] = useState([]);
+  const [ allTasks, setAllTasks ] = useState([]);
+  const [ projects, setProjects ] = useState(null);
+  const [ taskLen, setTaskLen ] = useState(0);
   
+  async function get_projects(){
+    let set = new Set([]); 
+    for(let i = 0; i < allTasks.length; i++){ 
+      if(!set.has(allTasks[i].project)){
+        set.add(allTasks[i].project);
+      }
+    } 
+    
+    setProjects(Array.from(set)); 
+  }
+
   async function get_userTasks(){
     try{
-      const result = await axios.get(base_url + `api/getTasksUser/${username}`); 
-      setTasks(result.data); 
+      const result = await axios.get(base_url + `api/getTasksUser/${username}?done=false`); 
+      const result_display = project ? await axios.get(base_url + `api/getTasksUser/${username}?done=false&project=${project}`) : result;
+      
+      setAllTasks(result.data);
+      setTasks(result_display.data);  
+      
     } catch(error){
       console.error('ERR! get_userTasks()', error);
     }
       
   }
 
+ 
+
   useEffect(() => {
-    get_userTasks();
-  }, [])
+    get_userTasks(); 
+  }, [taskLen])
+
+  useEffect(() => {
+    if(tasks.length > 0){ 
+      get_projects();
+    }
+  }, [tasks])
 
   if(tasks && tasks.length == 0){
     return (
@@ -37,7 +61,7 @@ function ToDo(){
         </div>
 
         <div>
-          <h3 style={{fontSize: '2rem'}}>No tasks ever asigned to this user<br/>:(</h3>
+          <h3 style={{fontSize: '2rem'}}>No tasks left to do</h3>
         </div>
       </>
     );
@@ -55,11 +79,14 @@ return (
         <div className="tasks-container">
           {tasks.map((task) => {
             return (
-              <div key={task.task_id} style={{paddingLeft: '2rem', width: '100%', paddingBottom: '1rem'}}>
-                <Task key={task.task_id} username={username} task_id={task.task_id}/>
+              <div key={task.task_id} className="task" style={{paddingBottom: '1rem'}}>
+                <Task onComplete={() => {get_userTasks()}} key={task.task_id} username={username} task_id={task.task_id}/>
               </div>
             );
           })}
+        </div>
+        <div className="taskFilter-container">
+          {projects && projects.length > 0 && <TaskFilter label={'Projects'} tasks={projects} text={project ? project : ''}/>}
         </div>
       </div>
       

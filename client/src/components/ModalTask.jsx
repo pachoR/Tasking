@@ -5,19 +5,46 @@ import TaskIcon from '@mui/icons-material/Task';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
 import ConfirmSlider from '../miscellaneous/ConfirmSlider.jsx';
+import axios from 'axios';
 import { webFormatTaskDate } from '../formatParser.js';
 import '../styles/ModalTask.css';
-
+const base_url = import.meta.env.VITE_BASE_URL;
 
 function ModalTask({closeModal, task, state}){
   
   console.log(task);
   const [startFormat, setStartFormat] = useState(webFormatTaskDate(task.init_date));
-  const [endFormat, setEndFormat] = useState(webFormatTaskDate(task.end_date));
+  const [endFormat, setEndFormat] = useState(webFormatTaskDate(task.end_date))
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleClick(){ 
-    closeModal();
+    if(isSubmitted)
+      closeModal(true);
+    else
+      closeModal(false);
   }
+
+  async function handleTaskSubmit(){ 
+
+    try {
+      const response = await axios.post(base_url + `api/setDone/${task.task_id}/${task.user_id}`);
+
+      if(response){
+        setIsSubmitted(true);
+        task.done = true;
+        state = "done";
+
+        console.log('response', response);
+        setTimeout(()=>{
+          closeModal(true);
+        }, 700); 
+      }
+    } catch(error){
+      console.error(`error handling sumbition ${error}`);
+    }
+    setIsSubmitted(true);
+  }
+
 
   return (
     <div className="modal" onClick={handleClick}> 
@@ -36,20 +63,20 @@ function ModalTask({closeModal, task, state}){
         </div>
 
         <div className="modal-title">
-          {state && state == 'overdue' && <h1 style={{color: 'red'}}>{task.task_title}</h1>} 
-          {state && state == 'pending' && <h1 style={{color: 'var(--orange)'}}>{task.task_title}</h1>} 
-          {state && state == 'done' && <h1 style={{color: 'var(--dark-green)'}}>{task.task_title}</h1>} 
-
+          {isSubmitted && <h1 style={{color: 'var(--dark-green)'}}>{task.task_title}</h1>} 
+          {state && state == 'overdue' && !isSubmitted && <h1 style={{color: 'red'}}>{task.task_title}</h1>} 
+          {state && state == 'pending' && !isSubmitted && <h1 style={{color: 'var(--orange)'}}>{task.task_title}</h1>} 
+          
           <div className="due-info">{
-              (state && state == 'overdue' && 
+              (state && state == 'overdue' && !isSubmitted && 
                 <div className="state-modal" style={{color: 'red'}}>
                   <AssignmentLateIcon id="svg-state"/>
                 </div>) ||
-              (state && state == 'done' && 
+              (isSubmitted && 
                   <div className="state-modal" style={{color: 'var(--dark-green)'}}>
                     <TaskIcon id="svg-state"/>
                   </div>) ||
-              (state && state == 'pending' && 
+              (state && state == 'pending' &&  !isSubmitted &&
                   <div className="state-modal" style={{color: 'var(--orange)'}}> 
                     <PendingActionsIcon id="svg-state"/>
                   </div>)
@@ -67,11 +94,17 @@ function ModalTask({closeModal, task, state}){
 
           <div className="modal-desc">
             <h1>{task.project_name}</h1>
+            <h3>Due to: {endFormat}</h3>
             <p>{task.task_descp}</p>
           </div>
         </div>
 
-        <ConfirmSlider onSlide={() => {console.log('confirm task')}}/>
+        <div className="modal-confirm"> 
+          <ConfirmSlider onSlide={() => {handleTaskSubmit()}}/>
+          
+          {!isSubmitted ? <p style={{color: 'var(--orange)'}}><i>Slide to mark as complete</i></p> 
+            : <p style={{color: 'var(--dark-green)'}}>Slide to mark as complete</p>}
+        </div> 
       </div>
     </div>
   );

@@ -87,7 +87,7 @@ function Home(){
                         project: project.project,
                         rol: project.rol,
                         start_date: changeDateFormat(project.start_date),
-                        end_date: changeDateFormat(project.end_date)
+                        end_date: changeDateFormat(project.end_date), 
                     }}/>
                     </button>
                 ))}

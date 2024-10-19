@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import LoadingMessage from '../miscellaneous/LoadingMessage.jsx'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TaskIcon from '@mui/icons-material/Task';
@@ -10,7 +9,7 @@ import axios from 'axios';
 import '../styles/Task.css'
 const base_url = import.meta.env.VITE_BASE_URL;
 
-function Task({task_id, username}){
+function Task({onComplete, task_id, username}){
 
   const [taskInfo, setTaskInfo] = useState(null);
   const [endState, setEndState] = useState('');
@@ -33,8 +32,11 @@ function Task({task_id, username}){
     }
   }
 
-  function closeModal(){ 
+  function closeModal(complete){  
     setIsModal(false);
+    if(complete){
+      onComplete();  
+    }
   }
  
   function openModal(){
@@ -52,7 +54,7 @@ function Task({task_id, username}){
   }, [isModal]);
 
   if(!taskInfo){ 
-    return <LoadingMessage/>;
+    return <h1 style={{color: 'var(--red)'}}>Loading...</h1>;
   }
 
   return (  

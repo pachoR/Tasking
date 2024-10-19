@@ -24,8 +24,8 @@
 .modal-container {
   display: flex; 
   flex-direction: column;
-  width: 60%;
-  height: 60%;
+  width: 70%;
+  height: 70%;
   background-color: var(--white);
   border-radius: 20px;
 }
@@ -115,7 +115,7 @@
 }
 
 .modal-desc {
-  color: var(--dark-green);
+  color: var(--red);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -129,8 +129,17 @@
   font-size: 1.6rem;
   margin: 0;
   padding: 0;
-  color: var(--orange);
+  color: var(--red);
   padding-left: 2rem;
+}
+
+.modal-desc h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  padding-left: 3rem;
+  color: var(--orange);
+  marign-top: 2rem;
 }
 
 .modal-desc p { 
@@ -138,3 +147,19 @@
   margin: 1rem 1.5rem; 
   text-align: justify;
 }
+
+.modal-confirm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  margin-top: 2rem;
+}
+
+.modal-confirm p {
+  margin: 0;
+  padding: 0;
+  font-size: 0.7rem; 
+  padding-right: 1rem; 
+}
+

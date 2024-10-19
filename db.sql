@@ -63,7 +63,12 @@ CREATE TABLE tasks_user (
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+UPDATE tasks_user SET done = False WHERE user_id=20 AND task_id=4
+UPDATE tasks_user SET done = False
     
+SELECT * FROM tasks_projects WHERE username = 'daniel' AND done = False ORDER BY due_date ASC 
+
 -- Retrieves the all the tasks from each project
 CREATE VIEW tasks_projects AS 
     SELECT p.project_name AS "project", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_desc", 
@@ -74,8 +79,8 @@ CREATE VIEW tasks_projects AS
     INNER JOIN users AS u ON u.user_id = tu.user_id
     
 
-CREATE VIEW task_user AS 
-    SELECT u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date",
+CREATE OR REPLACE VIEW task_user AS 
+    SELECT u.user_id AS "user_id", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date",
     t.task_end AS "end_date", tu.done AS "done", p.project_id AS "project_id", p.project_name AS "project_name", uc.username AS "task_creator"
     FROM tasks AS t 
     INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
@@ -83,9 +88,4 @@ CREATE VIEW task_user AS
     INNER JOIN users AS u ON u.user_id = tu.user_id
     INNER JOIN users AS uc ON uc.user_id = t.task_creator
 
-
-SELECT * FROM tasks
-
-UPDATE tasks 
-SET task_descp = 'Conecta sensores de temperatura, iluminación, movimiento y humedad a internet. Recopila datos en tiempo real a través de una plataforma centralizada. Automatiza acciones como encender luces, ajustar el termostato o activar sistemas de ventilación, optimizando el consumo energético del hogar'
-WHERE task_id = 4
+SELECT * FROM task_user

@@ -10,10 +10,17 @@
 }
 
 .page-grid {
+  width: 100%;
   display: grid;
   heigth: 100%;
   background-color: var(--white);
   grid-template-columns: repeat(10, 1fr); 
+}
+
+.task {
+  padding-left: 0.8rem;
+  width: calc(100% - 1rem);
+  paddgin-top: 10rem;
 }
 
 .tasks-container {
@@ -23,6 +30,14 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 1rem;
+}
+
+.taskFilter-container {
+  grid-column: auto / span 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; 
 }
 
 

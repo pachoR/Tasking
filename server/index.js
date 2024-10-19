@@ -167,8 +167,6 @@ app.get('/:username/:project', isAuthenticated, async (req, res) => {
     /* 
      * Get the specific project of certain user
      * */
-
-
     const { username, project } = req.params;
     try {
         const result = (await 
@@ -279,21 +277,54 @@ app.get('/api/getTask/:username/:taskId', isAuthenticated, async (req, res) => {
 });
 
 
-app.get('/api/getTasksUser/:username', isAuthenticated, async (req, res) => {
-    /*
-     * Select all the tasks from an specific user;
-     */
-    
+app.get('/api/getTasksUser/:username', async (req, res) => {
+    const { done, project } = req.query;
     const { username } = req.params;
+    const values = [username];
+
+    let query = 'SELECT * FROM tasks_projects WHERE username = $1';
+    
+    if(done){
+        query += ' AND done = $2';
+        values.push(done === 'true' || done === '1');
+    }else{
+        query += ' AND done = $2';
+        values.push(done === 'false' || done === '0');
+ 
+    }
+    if(project) {
+        query += ' AND project = $3';
+        values.push(project);
+    }
+
+    query += ' ORDER BY due_date ASC';
+     
+    try {
+        const result = (await db.query(query, values));
+        
+        return res.status(200).json(result.rows);
+    }catch(error){
+        return res.status(500).json({errorMessage: `error fetching task for the user: ${username} with params: ${done, project}`})
+    }
+});
+
+
+app.post('/api/setDone/:taskId/:userId', isAuthenticated, async (req, res) => {
+    const { userId, taskId } = req.params;
 
     try {
-        const result = (await
-        db.query("SELECT * FROM tasks_projects WHERE username = $1 ORDER BY due_date ASC", [username]));
+        const response = (await
+        db.query("UPDATE tasks_user SET done = True WHERE user_id=$1 AND task_id=$2", [userId, taskId]));
+       
+        if(response){
+            return res.status(200).json({message: 'success'});
+        }else{
+            return res.status(500).json({errorMessage: `internal server error updating the task_id: ${taskId} for the user: ${userId}`});
+        }
 
-        return res.status(200).json(result.rows);
-    } catch(error) {
+    } catch (error) {
         console.error(error);
-        return res.status(400).json({errorMessage: `error fetching tasks for the user: ${username}`})
+        return res.status(500).json({errorMessage: `error setting task as done: ${error}`});
     }
 });
 

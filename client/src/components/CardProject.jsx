@@ -6,7 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 function CardProject({props}){
     return (
         <>
-            <Card sx={{maxWidth: 345, background: 'var(--pink)', borderRadius: '15px', fontFamily: 'DM Sans', 
+            <Card sx={{background: 'var(--pink)', borderRadius: '15px', fontFamily: 'DM Sans', 
                 color: 'var(--red)', borderWidth: '20px', borderColor: 'red'}}>
                 <CardContent>
                     <div>

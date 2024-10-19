@@ -48,6 +48,10 @@ function compareNow_JSONformat(JSONdate){
      *  1 = NOW greater
      */
 
+    if(!JSONdate.date){
+        return 'Not defined'
+    }
+
     const now = new Date();    
     const input_date = new Date(JSONdate.date);
     if(now == input_date){

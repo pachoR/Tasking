@@ -69,7 +69,7 @@ function NavBar(){
                     onMouseLeave={itemMouseLeave}
                     className={classNames('menu-item', 
                     {'menu-not-item-hovered': hoveredItem !== 'To do' && hoveredItem !== null})}>
-                        <a href={`${username}/todo`}>To do</a>
+                        <a href={`/${username}/todo`}>To do</a>
                     </li>
 
                     <li
