@@ -1,0 +1,82 @@
+.modal-PM {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed; 
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, 0.2); 
+  color: var(--orange);
+  transition: width 2s, height 4s;
+  cursor: pointer;
+}
+
+.modal-container-PM {
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  width: 90%;
+  height: 70%;
+  background-color: var(--white);
+  border-radius: 20px;
+  cursor: default;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.task-info {
+  border-radius: 20px 0 0 20px; 
+  background-color: var(--beige);
+  color: var(--orange);
+}
+
+.task-info h2 {
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+  margin-top: 2rem;
+}
+
+.task-info p {
+  margin: 0;
+  padding: 0;
+  color: var(--dark-green);
+}
+
+.task-info-desc {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.members-info {
+  border-radius: 0 20px 20px 0;
+  background-color: var(--dark-green);
+  height: 100%;
+  display: flex;
+}
+
+.members-list-container {
+  background-color: var(--white);
+  margin: 2rem;
+  padding: 0.5rem;
+  max-height: 100%;
+  width: 100%;
+  border-radius: 20px; 
+  overflow-y: scroll;
+}
+
+.li-user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1rem;
+}

@@ -1,0 +1,52 @@
+.filter-container {
+  width: 80%;
+  background-color: var(--red);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
+
+.filter-title {
+  color: var(--white);
+  font-size: 0.5rem; 
+}
+
+.filter-title h1 {
+  margin: 0;
+  padding: 0.8rem 0 0.5rem 0;
+}
+
+.filter {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+#:r0:-label:hover {
+/* This is the label id that appears at the top of the border*/
+  color: var(--white);
+  fill: var(--white);
+}
+
+.filter-btn-section {
+  padding: 2rem;
+}
+
+.filter-btn {
+  background-color: var(--white);
+  color: var(--orange);
+}
+
+.done-filter {
+  display: flex;
+  flex-direction: row;
+  color: var(--white);
+  font-size: 0.9rem;
+  
+}
+
+.filter-btn:hover {
+  background-color: var(--white);
+  color: var(--red);
+}
+
