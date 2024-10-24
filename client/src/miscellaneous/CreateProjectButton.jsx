@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/CreateProjectButton.css'
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
-import ModalCreateProject from '../components/ModalCreateProject.jsx';
+import ModalCreateProject from '../modals/ModalCreateProject.jsx';
 import axios from 'axios';
 const base_url = import.meta.env.VITE_BASE_URL;
 

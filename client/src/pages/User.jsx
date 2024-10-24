@@ -13,10 +13,10 @@ const base_url = import.meta.env.VITE_BASE_URL;
 function User(){
     const navigate = useNavigate();
     const { username } = useParams();
-    const [projects, setProjects] = useState([]);
-    const [projectsNames, setProjectsNames] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [ projects, setProjects ] = useState([]);
+    const [ projectsNames, setProjectsNames ] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+    const [ errorMessage, setErrorMessage ] = useState(null);
 
     function redirectToProjectId(username, project){
         navigate(`/${username}/${project}`);

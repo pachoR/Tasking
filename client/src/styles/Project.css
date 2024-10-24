@@ -6,7 +6,11 @@
   padding: 0 1rem;
   margin: 0;
   border: 0;
+  height: 100%;
+  background-color: var(--white);
 }
+
+body {background-color: var(--white);}
 
 .project-title {
   margin: 0;
@@ -65,4 +69,11 @@
   align-items: center;
   padding-left: 0.8;
   
+}
+
+.expand-more-button {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+
 }

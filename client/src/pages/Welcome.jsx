@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Dot } from "react-animated-dots"
 import '../styles/Welcome.css';
-import ModalLogin from "../components/ModalLogin.jsx";
-import ModalRegister from "../components/ModalRegister.jsx";
+import ModalLogin from "../modals/ModalLogin.jsx";
+import ModalRegister from "../modals/ModalRegister.jsx";
 import AnimatedButton from "../miscellaneous/AnimatedButton.jsx";
 
 

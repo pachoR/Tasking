@@ -6,7 +6,7 @@ function ErrorMessage({props}){
   const error = props.text.split(" ");
 
   return (
-    <div >
+    <div>
       {error.map((el, i) => (
         <motion.span
           initial={{ opacity: 0 }}

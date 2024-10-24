@@ -9,12 +9,17 @@ import '../styles/ToDo.css';
 const base_url = import.meta.env.VITE_BASE_URL;
 
 function ToDo(){
-  const { username, project } = useParams();  
+  const { username } = useParams(); 
   const [ tasks, setTasks ] = useState([]);
   const [ allTasks, setAllTasks ] = useState([]);
   const [ projects, setProjects ] = useState(null);
   const [ taskLen, setTaskLen ] = useState(0);
   
+  const [ filters, setFilters ] = useState({
+    project: '',
+    done: false,
+  }) 
+
   async function get_projects(){
     let set = new Set([]); 
     for(let i = 0; i < allTasks.length; i++){ 
@@ -28,9 +33,14 @@ function ToDo(){
 
   async function get_userTasks(){
     try{
+      let url = base_url + `api/getTasksUser/${username}?done=${filters.done}`;
+      if(filters.project){
+        url += `&project=${filters.project ? filters.project : '""'}`;
+      }
+
+
       const result = await axios.get(base_url + `api/getTasksUser/${username}?done=false`); 
-      const result_display = project ? await axios.get(base_url + `api/getTasksUser/${username}?done=false&project=${project}`) : result;
-      
+      const result_display = await axios.get(url);
       setAllTasks(result.data);
       setTasks(result_display.data);  
       
@@ -40,11 +50,9 @@ function ToDo(){
       
   }
 
- 
-
   useEffect(() => {
     get_userTasks(); 
-  }, [taskLen])
+  }, [taskLen, filters])
 
   useEffect(() => {
     if(tasks.length > 0){ 
@@ -60,8 +68,14 @@ function ToDo(){
           <h1>To Do</h1>
         </div>
 
-        <div>
-          <h3 style={{fontSize: '2rem'}}>No tasks left to do</h3>
+        <div className="page-grid">
+          <div className="tasks-container">
+            <h3 style={{fontSize: '2rem'}}>No tasks left to do</h3>
+          </div>
+
+          <div className="taskFilter-container">
+            {projects && projects.length > 0 && <TaskFilter setFilters={setFilters} label={'Projects'} projects={projects} text={filters.project ? filters.project : 'Projects'}/>}
+          </div>
         </div>
       </>
     );
@@ -86,7 +100,7 @@ return (
           })}
         </div>
         <div className="taskFilter-container">
-          {projects && projects.length > 0 && <TaskFilter label={'Projects'} tasks={projects} text={project ? project : ''}/>}
+          {projects && projects.length > 0 && <TaskFilter setFilters={setFilters} label={'Projects'} projects={projects} text={filters.project ? filters.project : 'Projects'}/>}
         </div>
       </div>
       

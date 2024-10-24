@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TaskIcon from '@mui/icons-material/Task';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ModalTask from '../components/ModalTask.jsx';
+import ModalTask from '../modals/ModalTask.jsx';
 import { webFormatTaskDate, compareNow_JSONformat} from '../formatParser.js';
 import axios from 'axios';
 import '../styles/Task.css'

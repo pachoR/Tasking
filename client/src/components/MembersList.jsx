@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
+import AddMemberModal from '../modals/AddMemberModal.jsx';
+import axios from 'axios';
 import '../styles/MembersLists.css'
 import { flag_bit, if_can } from '../permission.js';
 const base_url = import.meta.env.VITE_BASE_URL;
@@ -10,6 +11,16 @@ function MembersList({props}){
 
   const [canAdd, setCanAdd] = useState(false);
   const [projectUsers, setProjectUsers] = useState([]);
+  const [isModal, setIsModal] = useState(false);
+ 
+
+  function openModal(){
+    setIsModal(true);
+  }
+
+  function closeModal(){
+    setIsModal(false);
+  }
 
   async function get_users(){
     let url = base_url + `api/getUsers/${props.project_id}`; 
@@ -33,11 +44,12 @@ function MembersList({props}){
 
   return (
     <div className='list-container'>
+      {canAdd && isModal && <AddMemberModal inviter={props.current_user} closeModal={closeModal}/>}
       <div className='list-title'>
         <h5>Members</h5>
         {canAdd && <AnimatedButton buttonProps={{
-                        scaleInfo: {hover: 0.8, tap: 2.0},
-                        onClickFunction: () => {},
+                        scaleInfo: {hover: 0.8, tap: 1.5},
+                        onClickFunction: openModal,
                         className: 'addButton',
                         component: <AddCircleIcon/>
                     }}/>}

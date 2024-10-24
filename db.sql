@@ -31,30 +31,16 @@ CREATE TABLE users_projects (
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE VIEW projectsUser AS
-    SELECT username AS "username", p.project_id AS "project_id", project_name AS "project", rol_name AS "rol", permissions AS "permissions", project_init_date AS "start_date", project_end_date AS "end_date"
-    FROM users AS u
-    INNER JOIN users_projects AS up ON u.user_id = up.user_id
-    INNER JOIN projects AS p ON p.project_id = up.project_id
-    INNER JOIN roles AS r ON up.rol_id = r.rol_id
-
-INSERT INTO tasks (task_title, task_descp, task_init, task_end, project_id) VALUES ('IoT interconection', 'Connecting V1 devices with the main server', CURRENT_DATE, NULL, 9);
-
 CREATE TABLE tasks (
     task_id         SERIAL PRIMARY KEY, 
     task_title      VARCHAR(50) NOT NULL,
-    task_descp      VARCHAR(100) NOT NULL,
+    task_descp      VARCHAR(300) NOT NULL,
     task_init       TIMESTAMP NOT NULL,
     task_end        TIMESTAMP,
     project_id      INT NOT NULL,
     task_creator    INT NOT NULL, 
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-ALTER TABLE tasks
-ALTER COLUMN task_descp TYPE VARCHAR(300)
-
-SELECT * FROM tasks
 
 CREATE TABLE tasks_user (
     task_id         INT NOT NULL,
@@ -64,28 +50,18 @@ CREATE TABLE tasks_user (
     FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-UPDATE tasks_user SET done = False WHERE user_id=20 AND task_id=4
-UPDATE tasks_user SET done = False
-    
-SELECT * FROM tasks_projects WHERE username = 'daniel' AND done = False ORDER BY due_date ASC 
+CREATE TABLE user_invitations (
+    user_id         INT NOT NULL,
+    project_id      INT NOT NULL,
+    inviter         INT NOT NULL,
+    accepted        CHAR(1) NOT NULL DEFAULT 'P', 
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (inviter) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- accepted can hold three posible values:
+--      A = ACCEPTED
+--      P = PENDING
+--      D = DECLINE
 
--- Retrieves the all the tasks from each project
-CREATE VIEW tasks_projects AS 
-    SELECT p.project_name AS "project", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_desc", 
-    t.task_init AS "start_date", t.task_end AS "due_date", tu.done AS "done"
-    FROM tasks as t 
-    INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
-    INNER JOIN projects AS p ON t.project_id = p.project_id
-    INNER JOIN users AS u ON u.user_id = tu.user_id
-    
-
-CREATE OR REPLACE VIEW task_user AS 
-    SELECT u.user_id AS "user_id", u.username AS "username", t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date",
-    t.task_end AS "end_date", tu.done AS "done", p.project_id AS "project_id", p.project_name AS "project_name", uc.username AS "task_creator"
-    FROM tasks AS t 
-    INNER JOIN tasks_user AS tu ON t.task_id = tu.task_id
-    INNER JOIN projects AS p ON t.project_id = p.project_id 
-    INNER JOIN users AS u ON u.user_id = tu.user_id
-    INNER JOIN users AS uc ON uc.user_id = t.task_creator
-
-SELECT * FROM task_user
+DROP TABLE user_invitations

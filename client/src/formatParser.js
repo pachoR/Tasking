@@ -46,9 +46,8 @@ function compareNow_JSONformat(JSONdate){
      * -1 = JSONgreater  
      *  0 = equals dates
      *  1 = NOW greater
-     */
-
-    if(!JSONdate.date){
+     */ 
+    if(!JSONdate || !JSONdate.date){
         return 'Not defined'
     }
 

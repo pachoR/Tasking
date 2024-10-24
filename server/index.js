@@ -6,7 +6,7 @@ import cors from "cors";
 import bcrypt from "bcryptjs";
 import db from "./db.js";
 import session from "express-session";
-
+import http from "http";
 
 const app = express();
 const port = 3000;
@@ -280,19 +280,13 @@ app.get('/api/getTask/:username/:taskId', isAuthenticated, async (req, res) => {
 app.get('/api/getTasksUser/:username', async (req, res) => {
     const { done, project } = req.query;
     const { username } = req.params;
-    const values = [username];
-
-    let query = 'SELECT * FROM tasks_projects WHERE username = $1';
+    const values = [username]; 
     
-    if(done){
-        query += ' AND done = $2';
-        values.push(done === 'true' || done === '1');
-    }else{
-        query += ' AND done = $2';
-        values.push(done === 'false' || done === '0');
- 
-    }
-    if(project) {
+    let query = 'SELECT * FROM tasks_projects WHERE username = $1';
+
+    query += ' AND done = $2';
+    values.push(done === 'true'); 
+    if (project) {
         query += ' AND project = $3';
         values.push(project);
     }
@@ -300,14 +294,13 @@ app.get('/api/getTasksUser/:username', async (req, res) => {
     query += ' ORDER BY due_date ASC';
      
     try {
-        const result = (await db.query(query, values));
-        
+        const result = await db.query(query, values);
         return res.status(200).json(result.rows);
-    }catch(error){
-        return res.status(500).json({errorMessage: `error fetching task for the user: ${username} with params: ${done, project}`})
+    } catch (error) {
+        console.error('Database query error:', error);
+        return res.status(500).json({ errorMessage: `Error fetching tasks for the user: ${username}` });
     }
 });
-
 
 app.post('/api/setDone/:taskId/:userId', isAuthenticated, async (req, res) => {
     const { userId, taskId } = req.params;
@@ -325,6 +318,53 @@ app.post('/api/setDone/:taskId/:userId', isAuthenticated, async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({errorMessage: `error setting task as done: ${error}`});
+    }
+});
+
+app.get('/api/getSupervisedTasks/:username', async (req, res) => {
+    const { username } = req.params;
+    const { project } = req.query;
+     
+    let query = `SELECT * FROM tasks_view WHERE task_creator = '${username}'`; 
+    
+    if(project){
+        query += ` AND project_name = '${project}' ORDER BY init_date DESC`;
+    }
+    
+    try {
+        const task_info = (await db.query(query)).rows;
+        
+        if(!task_info){
+            return res.status(500).json({errorMessage: `error getting tasks supervised by the user ${username}`}); 
+        }
+
+        const taskMap = new Map();
+        task_info.forEach((task) => {
+            taskMap.set(task.task_id, {
+                task_title: task.task_title,
+                task_descp: task.task_descp,
+                init_date: task.init_date,
+                end_date: task.end_date,
+                project_id: task.project_id,
+                project_name: task.project_name,
+                task_creator: task.task_creator,
+                users_info: [],
+            });
+        });
+
+        for(const task of task_info){ 
+            const task_users = (await db.query('SELECT user_id, username, done FROM task_user WHERE task_id = $1 ORDER BY username', [ task.task_id ])).rows;
+            const mapped_task = taskMap.get(task.task_id);
+
+            if(task_users && mapped_task){
+                mapped_task.users_info.push(...task_users);
+            }
+        }
+
+        return res.status(200).json({supervisedInfo: Object.fromEntries(taskMap)});
+
+    } catch (error) {
+        return res.status(500).json({errorMessage: `error getting supervised tasks by the user ${username}: ${error}`});
     }
 });
 
