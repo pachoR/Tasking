@@ -65,3 +65,6 @@ CREATE TABLE user_invitations (
 --      D = DECLINE
 
 DROP TABLE user_invitations
+
+UPDATE tasks_user
+SET done = FALSE

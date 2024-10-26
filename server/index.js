@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import db from "./db.js";
 import session from "express-session";
 import http from "http";
+import configureSocket from './socket.js'
 
 const app = express();
 const port = 3000;
@@ -27,6 +28,11 @@ app.use(session({
         sameSite: 'lax'
     }
 }));
+
+const server = http.createServer(app);
+configureSocket(server);
+
+
 
 const isAuthenticated = (req, res, next) => {
     if(req.session.user){

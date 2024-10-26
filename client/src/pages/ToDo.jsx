@@ -85,7 +85,7 @@ return (
     <>
       <NavBar/>
 
-      <div className="todo-title">
+      <div className="todo-title" style={{width: '100%', height: '100%'}}>
         <h1>To Do</h1>
       </div>
 
