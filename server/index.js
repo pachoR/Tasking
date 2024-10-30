@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import db from "./db.js";
 import session from "express-session";
 import http from "http";
-import configureSocket from './socket.js'
+
 
 const app = express();
 const port = 3000;
@@ -28,11 +28,6 @@ app.use(session({
         sameSite: 'lax'
     }
 }));
-
-const server = http.createServer(app);
-configureSocket(server);
-
-
 
 const isAuthenticated = (req, res, next) => {
     if(req.session.user){
@@ -373,6 +368,28 @@ app.get('/api/getSupervisedTasks/:username', async (req, res) => {
         return res.status(500).json({errorMessage: `error getting supervised tasks by the user ${username}: ${error}`});
     }
 });
+
+app.get('/api/getPendingInvitations/:username', async (req, res) => {
+    const { username } = req.params;
+
+    try {
+        const result = (await db.query('SELECT * FROM invitations WHERE username = $1 AND accepted = $2', [username, 'P'])).rows;
+
+        if(result){
+            return res.status(200).json({result});
+        }else{
+            return res.status(500).json({error: `error fetching ${username}'s pending invitations `})
+        }
+    } catch (error) {
+        console.error('ERR!', error);
+    }
+});
+
+app.post('/api/setInvitationStatus/:invitationId/:status', (req, res) => {
+    const { invitationId, status } = req.params;
+    console.log(invitationId, status);
+});
+
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);

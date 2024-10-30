@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { redirect, useNavigate } from "react-router-dom";
 import '../styles/Home.css';
 import axios from 'axios';
+import { useAtom } from 'jotai';
+import { userInfoAtom } from '../atoms.js';
 import NavBar from '../components/NavBar';
 import CreateProjectButton from '../miscellaneous/CreateProjectButton.jsx';
 import LoadingMessage from "../miscellaneous/LoadingMessage";
@@ -17,6 +19,7 @@ function Home(){
     const [user, setUser] = useState(null);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [, setUserInfo] = useAtom(userInfoAtom);
 
     function redirectToProjectId(username, project){
         navigate(`/${username}/${project}`);
@@ -36,7 +39,11 @@ function Home(){
             }else{
                 navigate('/');
             }
-
+           
+            const url2 = base_url + `api/getUserInfo/${res.data.user.username}`;
+            const userInfo = (await axios.get(url2)).data[0];
+            setUserInfo(userInfo);
+                        
         } catch (err) {
             navigate('/');
             console.error('!Error fetching user info: ', err);

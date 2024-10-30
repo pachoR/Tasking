@@ -1,0 +1,37 @@
+.invitation-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.1);
+    color: var(--orange);
+    transition: width 2s, height 4s;
+}
+
+.invitation-dropdown {
+    position: absolute;
+    top: 8%;
+    right: 0;
+    width: 300px;
+    background-color: var(--orange);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    display: flex;
+    flex-direction: column; 
+}
+
+.invitation-list-container {
+    display: flex; 
+    margin: 0.5rem;
+    background-color: var(--beige);
+    color: var(--orange);
+    border-radius: 10px 10px 20px 20px;
+}

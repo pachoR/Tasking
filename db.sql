@@ -31,6 +31,7 @@ CREATE TABLE users_projects (
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+SELECT * FROM users_projects
 CREATE TABLE tasks (
     task_id         SERIAL PRIMARY KEY, 
     task_title      VARCHAR(50) NOT NULL,
@@ -51,20 +52,25 @@ CREATE TABLE tasks_user (
 );
 
 CREATE TABLE user_invitations (
+    invitation_id   SERIAL PRIMARY KEY,
     user_id         INT NOT NULL,
     project_id      INT NOT NULL,
     inviter         INT NOT NULL,
-    accepted        CHAR(1) NOT NULL DEFAULT 'P', 
+    accepted        CHAR(1) NOT NULL DEFAULT 'P',
+    rol_id          INT NOT NULL,  
+    inv_read        BOOLEAN NOT NULL DEFAULT FALSE,
+    UNIQUE(user_id, project_id, inviter),
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (inviter) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (inviter) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (rol_id) REFERENCES roles(rol_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- accepted can hold three posible values:
 --      A = ACCEPTED
 --      P = PENDING
 --      D = DECLINE
-
 DROP TABLE user_invitations
+SELECT * FROM roles
 
-UPDATE tasks_user
-SET done = FALSE
+INSERT INTO user_invitations (user_id, project_id, inviter, rol_id) VALUES  (20,2,18,3)
+

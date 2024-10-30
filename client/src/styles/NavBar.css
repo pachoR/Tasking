@@ -5,8 +5,6 @@
     color: var(--orange);
 }
 
-
-
 .header-container {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
