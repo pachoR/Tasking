@@ -70,7 +70,9 @@ CREATE TABLE user_invitations (
 --      P = PENDING
 --      D = DECLINE
 DROP TABLE user_invitations
-SELECT * FROM roles
+SELECT * FROM user_invitations
+SELECT * FROM users_projects
+DELETE FROM users_projects WHERE user_id = 20 AND project_id = 2
+UPDATE user_invitations SET accepted = 'P' WHERE invitation_id = 1
 
-INSERT INTO user_invitations (user_id, project_id, inviter, rol_id) VALUES  (20,2,18,3)
 

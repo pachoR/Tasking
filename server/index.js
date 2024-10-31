@@ -7,7 +7,8 @@ import bcrypt from "bcryptjs";
 import db from "./db.js";
 import session from "express-session";
 import http from "http";
-
+//import configureSocket from './socket.js';
+import { Server } from 'socket.io';
 
 const app = express();
 const port = 3000;
@@ -28,6 +29,49 @@ app.use(session({
         sameSite: 'lax'
     }
 }));
+
+const server = http.createServer(app);
+
+const connectedUsers = new Map();
+const io = new Server(server, {
+    cors: {
+    origin: process.env.FRONT_URL,
+    methods: ["GET", "POST"],
+    credentials: true
+   }
+ });
+
+io.on('connection', (socket) => {    
+    socket.on('user_connected', (username) => {
+        connectedUsers.set(socket.id, username);
+        console.log(`${username} connected succesfully with socket.id: ${socket.id}`);
+    });
+
+    socket.on('disconnect', () => {
+        const username = connectedUsers.get(socket.id);
+        if(username){
+            connectedUsers.delete(socket.id);
+            console.log(`${username} disconnected`);
+        }
+    });
+
+    io.engine.on("connection_error", (err) => {
+        console.log(err.req);      
+        console.log(err.code);    
+        console.log(err.message);
+        console.log(err.context);
+    });
+
+    function notifyUser(username, invitation) {
+        const userSocketId = connectedUsers.get(username);
+        if(userSocketId){
+            io.to(userSocketId).emit('new_invitation', invitation);
+        }
+    }
+}); 
+
+
+
 
 const isAuthenticated = (req, res, next) => {
     if(req.session.user){
@@ -374,8 +418,12 @@ app.get('/api/getPendingInvitations/:username', async (req, res) => {
 
     try {
         const result = (await db.query('SELECT * FROM invitations WHERE username = $1 AND accepted = $2', [username, 'P'])).rows;
-
+        
         if(result){
+            result.forEach(async (res) => {
+                 await db.query('UPDATE user_invitations SET inv_read = True WHERE invitation_id = $1', [res.invitation_id])
+            })
+
             return res.status(200).json({result});
         }else{
             return res.status(500).json({error: `error fetching ${username}'s pending invitations `})
@@ -385,9 +433,29 @@ app.get('/api/getPendingInvitations/:username', async (req, res) => {
     }
 });
 
-app.post('/api/setInvitationStatus/:invitationId/:status', (req, res) => {
+
+app.post('/api/setInvitationStatus/:invitationId/:status', async (req, res) => {
     const { invitationId, status } = req.params;
-    console.log(invitationId, status);
+     
+    if(status === 'A' || status === 'D'){
+        
+        const isPending = (await db.query("SELECT accepted FROM user_invitations WHERE invitation_id = $1", [invitationId])).rows[0].accepted;
+        
+        if(isPending == 'P'){
+            try {
+                await db.query('UPDATE user_invitations SET accepted = $1 WHERE invitation_id = $2', [status, invitationId]);
+                return res.status(200).json({error: `status updated for invitation_id: ${invitationId} with status: ${status}`})
+            } catch (error) {
+                return res.status(500).json({error: `error updating status for invitation_id: ${invitationId} with status: ${status}`})
+                console.error('ERR!', error);
+            }
+        }else{
+            return res.status(400).json({error: `providing an invitation id (${invitationId}) on not pending status`})
+        }
+         
+    } else {
+        return res.status(400).json({error: `Wrong params send to setInvitationStatus, id: ${invitationId} with ${status} status`});
+    }
 });
 
 

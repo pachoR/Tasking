@@ -32,10 +32,11 @@ CREATE OR REPLACE VIEW invitations AS
     AS "project_name", r.rol_name AS "rol_name", r.permissions AS "permissions", i.user_id AS "inviter_id", i.username AS "inviter_username", 
     ui.accepted AS "accepted"
     FROM user_invitations AS ui 
+    INNER JOIN users AS i ON i.user_id = ui.inviter
     INNER JOIN users AS u ON u.user_id = ui.user_id 
     INNER JOIN roles AS r ON r.rol_id = ui.rol_id
     INNER JOIN projects AS p ON p.project_id = ui.project_id 
-    INNER JOIN users AS i ON u.user_id = i.user_id 
+    
 
 CREATE OR REPLACE VIEW tasks_view AS
     SELECT t.task_id AS "task_id", t.task_title AS "task_title", t.task_descp AS "task_descp", t.task_init AS "init_date", t.task_end AS "end_date", t.project_id AS "project_id",
@@ -43,5 +44,8 @@ CREATE OR REPLACE VIEW tasks_view AS
     FROM tasks AS t 
     INNER JOIN projects AS p ON p.project_id = t.project_id
     INNER JOIN users AS uc ON uc.user_id = t.task_creator ORDER BY task_id
+
+SELECT * FROM user_invitations AS ui 
+INNER JOIN users AS i ON i.user_id = ui.inviter
 
 SELECT * FROM invitations

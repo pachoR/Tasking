@@ -18,7 +18,7 @@
     position: absolute;
     top: 8%;
     right: 0;
-    width: 300px;
+    width: 400px;
     background-color: var(--orange);
     color: white;
     border-radius: 10px;
@@ -33,5 +33,29 @@
     margin: 0.5rem;
     background-color: var(--beige);
     color: var(--orange);
-    border-radius: 10px 10px 20px 20px;
+    border-radius: 5px 5px 10px 10px;
+}
+
+.invitation-div {
+    width: 100%; 
+    margin: 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--red);
+}
+
+.acceptInvitation-button {
+    background-color: var(--dark-green);   
+    margin-right: 1rem;
+}
+
+.declineInvitation-button {
+    background-color: var(--red);
+    margin: 0;
+}
+
+.invitationButton {
+    color: var(--white);  
 }

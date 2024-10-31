@@ -1,4 +1,4 @@
-.modal {
+.modal-createProject {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@
     transition: width 2s, height 4s;
 }
 
-.info-container {  
+.info-container-createProject {  
   background-color: var(--beige);
   display: grid;
   height: auto;
@@ -54,11 +54,11 @@
   padding-bottom: 0.8rem;
 }
 
-.close-symbol-area {
+.close-symbol-area-createProject {
   height: 100%;
 }
 
-.close-symbol {
+.close-symbol-createProject {
   position: relative;
   display: flex;
   justify-content: flex-end; /* Alinea el botón de cierre al extremo derecho */

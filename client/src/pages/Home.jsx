@@ -3,7 +3,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import '../styles/Home.css';
 import axios from 'axios';
 import { useAtom } from 'jotai';
-import { userInfoAtom } from '../atoms.js';
+import { userInfoAtom, updateHomeToogle } from '../atoms.js';
 import NavBar from '../components/NavBar';
 import CreateProjectButton from '../miscellaneous/CreateProjectButton.jsx';
 import LoadingMessage from "../miscellaneous/LoadingMessage";
@@ -19,7 +19,7 @@ function Home(){
     const [user, setUser] = useState(null);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [, setUserInfo] = useAtom(userInfoAtom);
+    const [, setUserInfo] = useAtom(userInfoAtom);    
 
     function redirectToProjectId(username, project){
         navigate(`/${username}/${project}`);
@@ -27,7 +27,7 @@ function Home(){
 
     function redirectToAllProjects(username){
         navigate(`/${username}`);
-    }
+    } 
 
     async function get_user_info() {
         const url = base_url + 'home';
@@ -75,7 +75,7 @@ function Home(){
             <NavBar/>
             { loading && <LoadingMessage/> }
 
-            { !loading && projects && 
+            { !loading && projects && userInfoAtom &&
             <>
             <div className="home">
                 <div className="home-head">

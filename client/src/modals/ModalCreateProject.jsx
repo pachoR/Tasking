@@ -89,15 +89,15 @@ function ModalCreateProject({closeModal, user}) {
   }
 
   return (
-    <div className='modal' onClick={closeModal}>
-      <div className="info-container" onClick={(event) => { event.stopPropagation(); }}>
+    <div className='modal-createProject' onClick={closeModal}>
+      <div className="info-container-createProject" onClick={(event) => { event.stopPropagation(); }}>
         <div className='section header shadow-box'>
           <div className='title'>
             <h4>Create project</h4>
           </div>
 
-          <div className='close-symbol-area'>
-            <div className='close-symbol'>            
+          <div className='close-symbol-area-createProject'>
+            <div className='close-symbol-createProject'>            
               <AnimatedButton buttonProps={{
                 svg: <Close className="close-svg" />,
                 onClickFunction: closeModal,
