@@ -76,3 +76,5 @@ DELETE FROM users_projects WHERE user_id = 20 AND project_id = 2
 UPDATE user_invitations SET accepted = 'P' WHERE invitation_id = 1
 
 
+SELECT * FROM roles;
+SELECT * FROM tasks 

@@ -7,7 +7,6 @@ import bcrypt from "bcryptjs";
 import db from "./db.js";
 import session from "express-session";
 import http from "http";
-//import configureSocket from './socket.js';
 import { Server } from 'socket.io';
 
 const app = express();
@@ -68,7 +67,7 @@ io.on('connection', (socket) => {
             io.to(userSocketId).emit('new_invitation', invitation);
         }
     }
-}); 
+});
 
 
 
@@ -246,7 +245,6 @@ app.get('/api/getUsers/:projectId', isAuthenticated, async (req, res) => {
     }
 });
 
-
 app.get('/api/getUserInfo/:username', isAuthenticated, async (req, res) => {
     const { username } = req.params;
     
@@ -415,10 +413,9 @@ app.get('/api/getSupervisedTasks/:username', async (req, res) => {
 
 app.get('/api/getPendingInvitations/:username', async (req, res) => {
     const { username } = req.params;
-
+    
     try {
-        const result = (await db.query('SELECT * FROM invitations WHERE username = $1 AND accepted = $2', [username, 'P'])).rows;
-        
+        const result = (await db.query('SELECT * FROM invitations WHERE username = $1 AND accepted = \'P\'', [username])).rows; 
         if(result){
             result.forEach(async (res) => {
                  await db.query('UPDATE user_invitations SET inv_read = True WHERE invitation_id = $1', [res.invitation_id])
@@ -433,31 +430,32 @@ app.get('/api/getPendingInvitations/:username', async (req, res) => {
     }
 });
 
-
 app.post('/api/setInvitationStatus/:invitationId/:status', async (req, res) => {
     const { invitationId, status } = req.params;
      
     if(status === 'A' || status === 'D'){
-        
-        const isPending = (await db.query("SELECT accepted FROM user_invitations WHERE invitation_id = $1", [invitationId])).rows[0].accepted;
-        
-        if(isPending == 'P'){
-            try {
-                await db.query('UPDATE user_invitations SET accepted = $1 WHERE invitation_id = $2', [status, invitationId]);
-                return res.status(200).json({error: `status updated for invitation_id: ${invitationId} with status: ${status}`})
-            } catch (error) {
-                return res.status(500).json({error: `error updating status for invitation_id: ${invitationId} with status: ${status}`})
-                console.error('ERR!', error);
+        try { 
+            const isPending = (await db.query("SELECT accepted FROM user_invitations WHERE invitation_id = $1", [invitationId])).rows[0].accepted;
+            
+            if(isPending == 'P'){
+                try {
+                    await db.query('UPDATE user_invitations SET accepted = $1 WHERE invitation_id = $2', [status, invitationId]);
+                    return res.status(200).json({error: `status updated for invitation_id: ${invitationId} with status: ${status}`});
+                } catch (error) {
+                    console.error('ERR!', error);
+                    return res.status(500).json({error: `error updating status for invitation_id: ${invitationId} with status: ${status}`});
+                }
+            }else{
+                return res.status(400).json({error: `providing an invitation id (${invitationId}) on not pending status`})
             }
-        }else{
-            return res.status(400).json({error: `providing an invitation id (${invitationId}) on not pending status`})
+        } catch(error) {
+            return res.status(400).json({error: `ERROR ${error}`})
         }
          
     } else {
         return res.status(400).json({error: `Wrong params send to setInvitationStatus, id: ${invitationId} with ${status} status`});
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);

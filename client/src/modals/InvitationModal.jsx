@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
 import { socket } from '../socket.js';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 import '../styles/InvitationModal.css';
 import { useAtom } from 'jotai';
 import { userInfoAtom, updateHomeToogle } from '../atoms.js';
@@ -16,34 +16,13 @@ function InvitationModal({ closeModal }){
   const [userInfo] = useAtom(userInfoAtom);
   const navigate = useNavigate(); 
   
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Conectado al servidor con id: ', socket.id);
-    });
-
-    socket.on('connect_error', (err) => {
-      console.error('Err! de conexion', err.message);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Desconectado del servidor');
-    });
-
-    return () => {
-      socket.off('connect');
-      socket.off('connect_error');
-      socket.off('disconnect');
-    }
-  }, [])
-
   async function get_invitations(){
     if(!userInfo){
       navigate('/');
     }
 
-    socket.emit('user_connected', userInfo.username);
-    const url = base_url + 'api/getPendingInvitations/' + userInfo.username; 
+    const url = base_url + 'api/getPendingInvitations/' + userInfo.username;
+    
     const result = (await axios.get(url)).data.result;
     setInvitations(result);  
   }

@@ -1,4 +1,4 @@
-import React, { useState, useReact } from 'react';
+import React, { useState, useEffect } from 'react';
 import AnimatedButton from '../miscellaneous/AnimatedButton.jsx';
 import Close from '../assets/close_icon.svg?react';
 import TextField from '@mui/material/TextField';
@@ -13,12 +13,28 @@ function AddMemberModal({inviter, closeModal}){
   const [ userInput, setUserInput ] = useState('');
   const [ canAdd, setCanAdd ] = useState(false);
   const [ error, setError ] = useState(false);
+  const [ roles, setRoles ] = useState(null);
+
+  async function getRoles(){
+    const url = base_url + 'api/getAllRoles';
+    console.log(url);
+    const response = await axios.get(url);
+    console.log(response);
+  }
 
   async function handleInvitation(){
     console.log('userInput', userInput);
     if(!userInput){ 
       setError(true); 
     }
+  }
+
+  useEffect(() => {
+    getRoles();
+  }, [])
+
+  if(!roles){
+    return <></>
   }
   
   return (
